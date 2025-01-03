@@ -4,14 +4,17 @@
 #include "timer.h"
 
 int main(int argc, char *argv[]) {
+    // Check for valid command-line arguments
     if (argc != 3) {
         fprintf(stderr, "Usage: %s <pid> <duration>\n", argv[0]);
         return EXIT_FAILURE;
     }
 
+    // Parse PID and interval duration
     int pid = atoi(argv[1]);
     int duration = atoi(argv[2]);
 
+    // Validate PID and duration
     if (pid <= 0 || duration <= 0) {
         fprintf(stderr, "Invalid PID or duration\n");
         return EXIT_FAILURE;
@@ -19,11 +22,12 @@ int main(int argc, char *argv[]) {
 
     printf("Starting timer for PID %d with duration %d seconds.\n", pid, duration);
 
-    set_timer(pid, duration);  // Initialize the timer
+    // Initialize the timer
+    set_timer(pid, duration);
 
-    // Keep the program running to allow SIGALRM to be processed
+    // Keep the program running to process SIGALRM
     while (1) {
-        pause();  // Wait for signals
+        pause();  // Wait for incoming signals
     }
 
     return 0;
