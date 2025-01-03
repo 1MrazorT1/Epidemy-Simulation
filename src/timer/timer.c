@@ -1,12 +1,40 @@
-#include <stdlib.h>
+#include <signal.h>
+#include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "timer.h"
+
 
 void manage_error_and_exit() {
     perror("Critical error occurred!");
     exit(EXIT_FAILURE);
 }
 
-void handle_alarm(int sig) {}
 
-void set_timer(int target_pid, int interval) {}
+void handle_alarm(int sig) {
+    if (sig != SIGALRM) return;  
+
+    
+    if (kill(pid, SIGUSR1) == -1) {
+        perror("Failed to send SIGUSR1 signal to target process");
+        manage_error_and_exit();
+    }
+
+    printf("SIGALRM received. Sent SIGUSR1 to PID %d.\n", pid);
+
+    
+    alarm(duration);
+}
+
+
+void set_timer(int target_pid, int interval) {
+    pid = target_pid;
+    duration = interval;
+
+    
+    if (signal(SIGALRM, handle_alarm) == SIG_ERR) {
+        perror("Error setting signal handler");
+        manage_error_and_exit();
+    }
+    alarm(duration);  
+}
