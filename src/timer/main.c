@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "timer.h"
 
 int main(int argc, char *argv[]) {
@@ -18,7 +19,7 @@ int main(int argc, char *argv[]) {
 
     printf("Starting timer for PID %d with duration %d seconds.\n", pid, duration);
 
-    set_timer(pid, duration);  // Set up the timer
+    set_timer(pid, duration);  // Initialize the timer
 
     // Keep the program running to allow SIGALRM to be processed
     while (1) {
