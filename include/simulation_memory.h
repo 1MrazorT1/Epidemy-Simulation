@@ -17,6 +17,7 @@ struct simulation_memory_s {
     int day;
     pid_t pid_epidemic_sim;
     int buildings[7][7];
+    double contamination_level[7][7];
     int n_of_citizens[7][7];
     int n_of_firefighters[7][7];
     int n_of_doctors[7][7];
@@ -30,6 +31,7 @@ void set_headline(SimulationMemory *memory);
 void set_day(SimulationMemory *memory, int day);
 void set_pid_epidemic_sim(SimulationMemory *memory, pid_t pid_epidemic_sim);
 void set_building(SimulationMemory *memory, int row, int col, int building_type);
+void init_contamination_level(SimulationMemory *memory);
 void initialize_memory(SimulationMemory *memory);
 
 void add_citizens(SimulationMemory *memory, int row, int col, int citizens_count, int id);

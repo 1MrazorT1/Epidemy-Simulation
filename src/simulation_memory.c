@@ -85,7 +85,11 @@ void update_normal_citizen(SimulationMemory *memory){
             int new_col = memory->citizens[i]->positionY;
             memory->n_of_citizens[old_row][old_col] = memory->n_of_citizens[old_row][old_col] - 1;
             memory->n_of_citizens[new_row][new_col] = memory->n_of_citizens[new_row][new_col] + 1;
-            printf("%d, %d, %d, %d\n", old_row, old_col, new_row, new_col);
+            if(memory->buildings[new_row][new_col] == 1){
+                memory->contamination_level[new_row][new_col] = memory->contamination_level[new_row][new_col] + 0.01 * memory->citizens[i]->contamination * 0.25;
+            }else if (memory->buildings[new_row][new_col] != 0){
+                memory->contamination_level[new_row][new_col] = memory->contamination_level[new_row][new_col] + 0.01 * memory->citizens[i]->contamination;
+            }
         }
     }
 }
@@ -150,11 +154,21 @@ void init_people(SimulationMemory *memory, int number_of_citizens, int number_of
     }
 }
 
+void init_contamination_level(SimulationMemory *memory){
+    printf("here");
+    for(int row = 0; row < CITY_ROWS; row++){
+        for(int col = 0; col < CITY_COLUMNS; col++){
+            memory->contamination_level[row][col] = 0;
+        }
+    }
+}
+
 
 void initialize_memory(SimulationMemory *memory){
     //set_headline(memory);
     //set_day(memory, 1);
     set_buildings(memory);
+    init_contamination_level(memory);
     init_people(memory, 25, 6, 4, 0, 0);
 }
 
