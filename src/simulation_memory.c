@@ -71,8 +71,23 @@ void set_buildings(SimulationMemory *memory){
 
 void add_citizens(SimulationMemory *memory, int row, int col, int citizens_count, int id){
     memory->citizens[id] = create_citizen(CITIZEN, row, col, rand() % 32);
-    display_citizen(memory->citizens[id]);
     memory->n_of_citizens[row][col] = memory->n_of_citizens[row][col] + citizens_count;
+    printf("%d\n", id);
+    display_citizen(memory->citizens[id]);
+}
+
+void update_normal_citizen(SimulationMemory *memory){
+    for(int i = 1; i < MAX_NORMAL_CITIZEN; i++){
+        int old_row = memory->citizens[i]->positionX;
+        int old_col = memory->citizens[i]->positionY;
+        if (normal_citizen_moving(memory->citizens[i]) == 1){
+            int new_row = memory->citizens[i]->positionX;
+            int new_col = memory->citizens[i]->positionY;
+            memory->n_of_citizens[old_row][old_col] = memory->n_of_citizens[old_row][old_col] - 1;
+            memory->n_of_citizens[new_row][new_col] = memory->n_of_citizens[new_row][new_col] + 1;
+            printf("%d, %d, %d, %d\n", old_row, old_col, new_row, new_col);
+        }
+    }
 }
 
 void add_firefighters(SimulationMemory *memory, int row, int col, int firefighters_count){
@@ -141,4 +156,8 @@ void initialize_memory(SimulationMemory *memory){
     //set_day(memory, 1);
     set_buildings(memory);
     init_people(memory, 25, 6, 4, 0, 0);
+}
+
+void update_memory(SimulationMemory *memory){
+    update_normal_citizen(memory);
 }

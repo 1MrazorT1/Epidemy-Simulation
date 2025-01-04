@@ -217,6 +217,11 @@ void clean_citizen_labels(const Application *app) {
 
 static gboolean update_window(gpointer data) {
     Application *app = data;
+
+
+    
+
+
     update_simulation_board(app);
     return TRUE;
 }
@@ -238,6 +243,7 @@ void update_simulation_board(const Application *app) {
             dead_citizens = 0;
             burnt_bodies = 0;
 
+            update_memory(app->simulation_facade->memory);
             count_citizens(app, row, col, &citizens, &doctors, &firefighters, &dead_citizens,
                            &burnt_bodies);
 

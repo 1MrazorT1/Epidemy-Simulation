@@ -15,8 +15,8 @@ typedef enum Person{
 
 typedef struct status {
     int id; /*from 0 to the maximum number of that person's type, is unique and it helps keeping the citizen count under the maximum number of that person's type.*/
-    unsigned int positionX;
-    unsigned int positionY;
+    int positionX;
+    int positionY;
     double contamination;
     int is_sick;
     char name[CITIZEN_MAX_NAME_LENGTH];
@@ -40,6 +40,8 @@ status_p* create_citizen(Person,unsigned in, unsigned int , int id_name);
  */
 
 void display_citizen(status_p*);
+
+int normal_citizen_moving(status_p* citizen);
 
 
 void get_sick(status_p *);
