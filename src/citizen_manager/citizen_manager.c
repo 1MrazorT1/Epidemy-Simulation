@@ -74,8 +74,10 @@ int normal_citizen_moving(status_p* citizen){
         }
         citizen->positionX = citizen->positionX + rand_dx;
         citizen->positionY = citizen->positionY + rand_dy;
+        citizen->contamination = citizen->contamination + 2;
         return 1;
     }else{
+        citizen->contamination = citizen->contamination + 5;
         return 0;
     }
 }
