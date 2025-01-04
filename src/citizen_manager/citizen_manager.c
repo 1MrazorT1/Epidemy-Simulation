@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 
 #include "citizen_manager.h"
 #include "logger.h"
@@ -25,6 +26,7 @@ status_p *create_citizen(Person e,unsigned int x, unsigned int y,int id_name){
     citi->positionY = y;
     citi->contamination = 0;
     citi->is_sick = 0;
+    citi->death_chance = 0;
     citi->days_spent_in_hospital_asHealthy = 0;
     citi->type = e;
     strcpy(citi->name, names[id_name]);
@@ -74,7 +76,7 @@ int normal_citizen_moving(status_p* citizen){
         }
         citizen->positionX = citizen->positionX + rand_dx;
         citizen->positionY = citizen->positionY + rand_dy;
-        citizen->contamination = citizen->contamination + 0.02 * citizen->contamination;
+        citizen->contamination = citizen->contamination + 0.02 ;//* citizen->contamination;
         return 1;
     }else{
         citizen->contamination = citizen->contamination + 0.05 * citizen->contamination;
@@ -82,10 +84,36 @@ int normal_citizen_moving(status_p* citizen){
     }
 }
 
+int is_going_to_be_sick(status_p* citizen){
+    if((citizen->is_sick == 0) && (citizen->contamination > ((rand() % 100) / 100))){
+        citizen->is_sick = 1;
+        return 1;
+    }else{
+        return 0;
+    }
+}
 
-
-
-
+int is_going_to_die(status_p* citizen, status_p** medics){
+    
+    if((citizen->is_sick >= 1) && (citizen->is_sick < 5)){
+        
+        citizen->is_sick = citizen->is_sick + 1;
+    }else if(citizen->is_sick >= 5){
+        citizen->death_chance = citizen->death_chance + 0.05;
+        for(int i = 0; i < 4; i++){
+            if ((medics[i]->positionX == citizen->positionX) && (medics[i]->positionY == citizen->positionY)){
+                citizen->death_chance = citizen->death_chance / 2;
+                return 0;
+            }
+        }
+        if(citizen->death_chance > ((rand() % 100) / 100)){
+            citizen->death_chance = 1;
+            citizen->type = 5;
+            return 1;
+        }
+    }
+    return 0;
+}
 
 
 void display_citizen( status_p *citi) {

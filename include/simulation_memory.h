@@ -24,6 +24,10 @@ struct simulation_memory_s {
     int n_of_dead_citizens[7][7];
     int n_of_ashes[7][7];
     status_p* citizens[MAX_NORMAL_CITIZEN];
+    status_p* firefighters[6];
+    status_p* doctors[4];
+    status_p* dead_citizens[MAX_NORMAL_CITIZEN];
+    status_p* ashes[MAX_NORMAL_CITIZEN];
 };
 
 
@@ -35,10 +39,10 @@ void init_contamination_level(SimulationMemory *memory);
 void initialize_memory(SimulationMemory *memory);
 
 void add_citizens(SimulationMemory *memory, int row, int col, int citizens_count, int id);
-void add_firefighters(SimulationMemory *memory, int row, int col, int firefighters_count);
-void add_doctors(SimulationMemory *memory, int row, int col, int doctors_count);
-void add_dead_citizens(SimulationMemory *memory, int row, int col, int dead_citizens_count);
-void add_ashes(SimulationMemory *memory, int row, int col, int ashes_count);
+void add_firefighters(SimulationMemory *memory, int row, int col, int firefighters_count, int id);
+void add_doctors(SimulationMemory *memory, int row, int col, int doctors_count, int id);
+void add_dead_citizens(SimulationMemory *memory, int row, int col, int dead_citizens_count, int id);
+void add_ashes(SimulationMemory *memory, int row, int col, int ashes_count, int id);
 
 void init_people(SimulationMemory *memory, int number_of_citizens, int number_of_firefighters, int number_of_doctors, int number_of_dead_citizens, int number_of_ashes);
 

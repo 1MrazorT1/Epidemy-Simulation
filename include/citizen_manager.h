@@ -18,6 +18,7 @@ typedef struct status {
     int positionX;
     int positionY;
     double contamination;
+    double death_chance;
     int is_sick;
     char name[CITIZEN_MAX_NAME_LENGTH];
     unsigned int nbr_days_sickness;
@@ -43,7 +44,8 @@ void display_citizen(status_p*);
 
 int normal_citizen_moving(status_p* citizen);
 
+int is_going_to_be_sick(status_p* citizen);
 
-void get_sick(status_p *);
+int is_going_to_die(status_p* citizen, status_p** medics);
 
 #endif /* CITIZEN_MANAGER_H */

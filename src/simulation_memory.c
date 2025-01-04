@@ -72,8 +72,6 @@ void set_buildings(SimulationMemory *memory){
 void add_citizens(SimulationMemory *memory, int row, int col, int citizens_count, int id){
     memory->citizens[id] = create_citizen(CITIZEN, row, col, rand() % 32);
     memory->n_of_citizens[row][col] = memory->n_of_citizens[row][col] + citizens_count;
-    printf("%d\n", id);
-    display_citizen(memory->citizens[id]);
 }
 
 void update_normal_citizen(SimulationMemory *memory){
@@ -91,22 +89,32 @@ void update_normal_citizen(SimulationMemory *memory){
                 memory->contamination_level[new_row][new_col] = memory->contamination_level[new_row][new_col] + 0.01 * memory->citizens[i]->contamination;
             }
         }
+
+        is_going_to_be_sick(memory->citizens[i]) == 1;
+
+        if(is_going_to_die(memory->citizens[i], memory->doctors) == 1){
+            add_dead_citizens(memory, memory->citizens[i]->positionX, memory->citizens[i]->positionY, 1, memory->citizens[i]->id);
+        }
+        
     }
 }
 
-void add_firefighters(SimulationMemory *memory, int row, int col, int firefighters_count){
+void add_firefighters(SimulationMemory *memory, int row, int col, int firefighters_count, int id){
+    memory->firefighters[id] = create_citizen(FIREFIGHTER, row, col, rand() % 32);
     memory->n_of_firefighters[row][col] = memory->n_of_firefighters[row][col] + firefighters_count;
 }
 
-void add_doctors(SimulationMemory *memory, int row, int col, int doctors_count){
+void add_doctors(SimulationMemory *memory, int row, int col, int doctors_count, int id){
+    memory->doctors[id] = create_citizen(DOCTOR, row, col, rand() % 32);
     memory->n_of_doctors[row][col] = memory->n_of_doctors[row][col] + doctors_count;
 }
 
-void add_dead_citizens(SimulationMemory *memory, int row, int col, int dead_citizens_count){
+void add_dead_citizens(SimulationMemory *memory, int row, int col, int dead_citizens_count, int id){
     memory->n_of_dead_citizens[row][col] = memory->n_of_dead_citizens[row][col] + dead_citizens_count;
 }
 
-void add_ashes(SimulationMemory *memory, int row, int col, int ashes_count){
+void add_ashes(SimulationMemory *memory, int row, int col, int ashes_count, int id){
+    memory->ashes[id] = create_citizen(BURNED, row, col, rand() % 32);
     memory->n_of_ashes[row][col] = memory->n_of_ashes[row][col] + ashes_count;
 }
 
@@ -123,17 +131,29 @@ void init_people(SimulationMemory *memory, int number_of_citizens, int number_of
 
     for(int i = 0; i < 25; i++){
         memory->citizens[i] = (status_p *)malloc(sizeof(status_p));
+        memory->dead_citizens[i] = (status_p *)malloc(sizeof(status_p));
+        memory->ashes[i] = (status_p *)malloc(sizeof(status_p));
     }
 
-    add_doctors(memory, CITY_ROWS / 2, CITY_COLUMNS / 2, 1);
-    add_firefighters(memory, 0, CITY_COLUMNS - 1, 1);
-    add_firefighters(memory, CITY_ROWS - 1, 0, 1);
+    for(int i = 0; i < 6; i++){
+        memory->firefighters[i] = (status_p *)malloc(sizeof(status_p));
+    }
+
+    for(int i = 0; i < 4; i++){
+        memory->doctors[i] = (status_p *)malloc(sizeof(status_p));
+    }
+
+
+
+    add_doctors(memory, CITY_ROWS / 2, CITY_COLUMNS / 2, 1, number_of_doctors);
+    add_firefighters(memory, 0, CITY_COLUMNS - 1, 1, number_of_firefighters);
+    add_firefighters(memory, CITY_ROWS - 1, 0, 1, number_of_firefighters);
 
     int medic = number_of_doctors - 1;
     while (medic > 0){
         int rand_row = rand() % 7;
         int rand_col = rand() % 7;
-        add_doctors(memory, rand_row, rand_col, 1);
+        add_doctors(memory, rand_row, rand_col, 1, medic);
         medic--;
     }
 
@@ -141,7 +161,7 @@ void init_people(SimulationMemory *memory, int number_of_citizens, int number_of
     while (firefighters > 0){
         int rand_row = rand() % 7;
         int rand_col = rand() % 7;
-        add_firefighters(memory, rand_row, rand_col, 1);
+        add_firefighters(memory, rand_row, rand_col, 1, firefighters);
         firefighters--;
     }
 
@@ -155,7 +175,6 @@ void init_people(SimulationMemory *memory, int number_of_citizens, int number_of
 }
 
 void init_contamination_level(SimulationMemory *memory){
-    printf("here");
     for(int row = 0; row < CITY_ROWS; row++){
         for(int col = 0; col < CITY_COLUMNS; col++){
             memory->contamination_level[row][col] = 0;
