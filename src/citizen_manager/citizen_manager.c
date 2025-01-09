@@ -38,7 +38,7 @@ status_p *create_citizen(Person e,unsigned int x, unsigned int y,int id_name){
     
 }
 
-int normal_citizen_moving(status_p* citizen){
+int normal_citizen_moving(status_p* citizen, double local_contamination[7][7]){
     int isMoving = rand() % 100;
     if (isMoving <= 40){
         int rand_dx = rand() % 3;
@@ -76,10 +76,10 @@ int normal_citizen_moving(status_p* citizen){
         }
         citizen->positionX = citizen->positionX + rand_dx;
         citizen->positionY = citizen->positionY + rand_dy;
-        citizen->contamination = citizen->contamination + 0.02 ;//* citizen->contamination;
+        citizen->contamination = citizen->contamination + 0.02 * local_contamination[citizen->positionX][citizen->positionY];
         return 1;
     }else{
-        citizen->contamination = citizen->contamination + 0.05 * citizen->contamination;
+        citizen->contamination = citizen->contamination + 0.05 * local_contamination[citizen->positionX][citizen->positionY];
         return 0;
     }
 }

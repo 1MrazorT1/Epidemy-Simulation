@@ -278,7 +278,7 @@ void update_infection_labels(const Application *app, int row, int col) {
     facade = app->simulation_facade;
     infection = facade->get_infection(facade, row, col);
 
-    sprintf(number, "%d%%", (infection * 100));
+    sprintf(number, "%d%%", (infection));
     gtk_label_set_text(GTK_LABEL(app->labels_infection[row][col]), number);
 
     if (infection > 0.8) {

@@ -15,13 +15,13 @@ int main(int argc, const char *argv[]) {
     printf("Displaying Citizen:\n");
     display_citizen(citizen1);
 
-    while(1){
-        if(normal_citizen_moving(citizen1) == 1){
-            printf("Moving Citizen:\n");
-            display_citizen(citizen1);
-        }
-        
-    }
+    //while(1){
+    //    if(normal_citizen_moving(citizen1) == 1){
+    //        printf("Moving Citizen:\n");
+    //        display_citizen(citizen1);
+    //    }
+    //    
+    //}
     
 
     printf("Displaying Doctor:\n");

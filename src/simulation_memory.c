@@ -78,7 +78,7 @@ void update_normal_citizen(SimulationMemory *memory){
     for(int i = 1; i < MAX_NORMAL_CITIZEN; i++){
         int old_row = memory->citizens[i]->positionX;
         int old_col = memory->citizens[i]->positionY;
-        if (normal_citizen_moving(memory->citizens[i]) == 1){
+        if (normal_citizen_moving(memory->citizens[i], memory->contamination_level) == 1){
             int new_row = memory->citizens[i]->positionX;
             int new_col = memory->citizens[i]->positionY;
             memory->n_of_citizens[old_row][old_col] = memory->n_of_citizens[old_row][old_col] - 1;
@@ -175,11 +175,28 @@ void init_people(SimulationMemory *memory, int number_of_citizens, int number_of
 }
 
 void init_contamination_level(SimulationMemory *memory){
+    double wastelands_counter = 0;
     for(int row = 0; row < CITY_ROWS; row++){
         for(int col = 0; col < CITY_COLUMNS; col++){
             memory->contamination_level[row][col] = 0;
+            if(memory->buildings[row][col] == 3){
+                wastelands_counter++;
+            }
         }
     }
+
+    int infected_wastelands = (int)(wastelands_counter * 0.1);
+
+    while(infected_wastelands != 0){
+        int rand_row = rand() % 7;
+        int rand_col = rand() % 7;
+        if(memory->buildings[rand_row][rand_col] == 3){
+            memory->contamination_level[rand_row][rand_col] = (rand() % 20 + 20) * 0.01;
+            infected_wastelands--;
+            printf("zone (%d, %d): %f\n", rand_row, rand_col, memory->contamination_level[rand_row][rand_col]);
+        }
+    }
+    
 }
 
 
