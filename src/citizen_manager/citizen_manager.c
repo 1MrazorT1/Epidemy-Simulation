@@ -31,7 +31,7 @@ status_p *create_citizen(Person e,unsigned int x, unsigned int y,int id_name){
     citi->type = e;
     strcpy(citi->name, names[id_name]);
 
-    if (e==DOCTOR){
+    if (e == DOCTOR){
         /* to complete after */
     }
     return citi;
@@ -97,6 +97,27 @@ int firefighter_moving(status_p* firefighter, double local_contamination[7][7]){
     }else{
         firefighter->contamination = firefighter->contamination + 0.05 * local_contamination[firefighter->positionX][firefighter->positionY];
         return 0;
+    }
+}
+
+int doctor_moving(status_p* doctor, double local_contamination[7][7]){
+    int isMoving = rand() % 100;
+    if (isMoving <= 40){
+        move(doctor);
+        doctor->contamination = doctor->contamination + 0.02 * local_contamination[doctor->positionX][doctor->positionY];
+        return 1;
+    }else{
+        doctor->contamination = doctor->contamination + 0.05 * local_contamination[doctor->positionX][doctor->positionY];
+        return 0;
+    }
+}
+
+void heal(status_p* doctor, status_p* character, int in_hospital){
+    if(doctor->care_pouch > 0){
+        character->is_sick = 0;
+        if(in_hospital){
+            doctor->care_pouch--;
+        }
     }
 }
 

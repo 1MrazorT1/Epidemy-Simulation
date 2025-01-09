@@ -10,6 +10,7 @@
 #define CITY_COLUMNS 7
 #define MAX_NORMAL_CITIZEN 25
 #define MAX_FIREFIGHTER 6
+#define MAX_DOCTORS 4
 
 typedef struct simulation_memory_s SimulationMemory;
 
