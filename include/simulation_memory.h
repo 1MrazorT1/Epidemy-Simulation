@@ -9,6 +9,7 @@
 #define CITY_ROWS    7
 #define CITY_COLUMNS 7
 #define MAX_NORMAL_CITIZEN 25
+#define MAX_FIREFIGHTER 6
 
 typedef struct simulation_memory_s SimulationMemory;
 
@@ -47,5 +48,8 @@ void add_ashes(SimulationMemory *memory, int row, int col, int ashes_count, int 
 void init_people(SimulationMemory *memory, int number_of_citizens, int number_of_firefighters, int number_of_doctors, int number_of_dead_citizens, int number_of_ashes);
 
 void update_memory(SimulationMemory *memory);
+void update_normal_citizen(SimulationMemory *memory);
+void update_firefighter(SimulationMemory *memory);
+
 
 #endif

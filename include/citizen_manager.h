@@ -43,6 +43,7 @@ status_p* create_citizen(Person,unsigned in, unsigned int , int id_name);
 void display_citizen(status_p*);
 
 int normal_citizen_moving(status_p* citizen, double local_contamination[7][7]);
+int firefighter_moving(status_p* firefighter, double local_contamination[7][7]);
 
 int is_going_to_be_sick(status_p* citizen);
 

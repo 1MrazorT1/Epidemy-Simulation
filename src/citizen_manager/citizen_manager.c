@@ -38,48 +38,64 @@ status_p *create_citizen(Person e,unsigned int x, unsigned int y,int id_name){
     
 }
 
+void move(status_p* character){
+    int rand_dx = rand() % 3;
+    int rand_dy = rand() % 3;
+    if(rand_dx == 0){
+        if((character->positionX >= 1)){
+            rand_dx = -1;
+        }else{
+            rand_dx = 0;
+        }
+    }else if(rand_dx == 1){
+        rand_dx = 0;
+    }else if(rand_dx == 2){
+        if((character->positionX <= 5)){
+            rand_dx = 1;
+        }else{
+            rand_dx = 0;
+        }
+    }
+
+    if(rand_dy == 0){
+        if((character->positionY >= 1)){
+            rand_dy = -1;
+        }else{
+            rand_dy = 0;
+        }
+    }else if(rand_dy == 1){
+        rand_dy = 0;
+    }else if(rand_dy == 2){
+        if((character->positionY <= 5)){
+            rand_dy = 1;
+        }else{
+            rand_dy = 0;
+        }
+    }
+    character->positionX = character->positionX + rand_dx;
+    character->positionY = character->positionY + rand_dy;
+}
+
 int normal_citizen_moving(status_p* citizen, double local_contamination[7][7]){
     int isMoving = rand() % 100;
     if (isMoving <= 40){
-        int rand_dx = rand() % 3;
-        int rand_dy = rand() % 3;
-        if(rand_dx == 0){
-            if((citizen->positionX >= 1)){
-                rand_dx = -1;
-            }else{
-                rand_dx = 0;
-            }
-        }else if(rand_dx == 1){
-            rand_dx = 0;
-        }else if(rand_dx == 2){
-            if((citizen->positionX <= 5)){
-                rand_dx = 1;
-            }else{
-                rand_dx = 0;
-            }
-        }
-
-        if(rand_dy == 0){
-            if((citizen->positionY >= 1)){
-                rand_dy = -1;
-            }else{
-                rand_dy = 0;
-            }
-        }else if(rand_dy == 1){
-            rand_dy = 0;
-        }else if(rand_dy == 2){
-            if((citizen->positionY <= 5)){
-                rand_dy = 1;
-            }else{
-                rand_dy = 0;
-            }
-        }
-        citizen->positionX = citizen->positionX + rand_dx;
-        citizen->positionY = citizen->positionY + rand_dy;
+        move(citizen);
         citizen->contamination = citizen->contamination + 0.02 * local_contamination[citizen->positionX][citizen->positionY];
         return 1;
     }else{
         citizen->contamination = citizen->contamination + 0.05 * local_contamination[citizen->positionX][citizen->positionY];
+        return 0;
+    }
+}
+
+int firefighter_moving(status_p* firefighter, double local_contamination[7][7]){
+    int isMoving = rand() % 100;
+    if (isMoving <= 40){
+        move(firefighter);
+        firefighter->contamination = firefighter->contamination + 0.02 * local_contamination[firefighter->positionX][firefighter->positionY];
+        return 1;
+    }else{
+        firefighter->contamination = firefighter->contamination + 0.05 * local_contamination[firefighter->positionX][firefighter->positionY];
         return 0;
     }
 }
@@ -116,6 +132,10 @@ int is_going_to_die(status_p* citizen, status_p** medics){
         }
     }
     return 0;
+}
+
+void decontaminate(int row, int col, double *contamination){
+    
 }
 
 

@@ -104,6 +104,42 @@ void add_firefighters(SimulationMemory *memory, int row, int col, int firefighte
     memory->n_of_firefighters[row][col] = memory->n_of_firefighters[row][col] + firefighters_count;
 }
 
+int get_IDs(int row, int col, status_p* *character, int* IDs){
+    int n = 0;
+    for(int i = 0; i < 25; i++){
+        if((character[i] != NULL) && (character[i]->positionX == row) && (character[i]->positionY == col)){
+            n++;
+            IDs = malloc(n * sizeof(int));
+            IDs[n-1] = i;
+        }
+    }
+    return n;
+}
+
+void update_firefighter(SimulationMemory *memory){
+    for(int i = 1; i < MAX_FIREFIGHTER; i++){
+        int old_row = memory->firefighters[i]->positionX;
+        int old_col = memory->firefighters[i]->positionY;
+        if (firefighter_moving(memory->firefighters[i], memory->contamination_level) == 1){
+            int new_row = memory->firefighters[i]->positionX;
+            int new_col = memory->firefighters[i]->positionY;
+            memory->n_of_firefighters[old_row][old_col] = memory->n_of_firefighters[old_row][old_col] - 1;
+            memory->n_of_firefighters[new_row][new_col] = memory->n_of_firefighters[new_row][new_col] + 1;
+            int* IDs = NULL;
+            int n = get_IDs(new_row, new_col, memory->citizens, IDs);
+            if(IDs != NULL){
+                for(int j = 0; j < n; j++){
+                    memory->citizens[IDs[j]]->contamination = memory->citizens[IDs[j]]->contamination - 0.2 * memory->citizens[IDs[j]]->contamination;
+                }
+            }else{
+                if(memory->contamination_level[new_row][new_col] > 0){
+                    memory->contamination_level[new_row][new_col] = memory->contamination_level[new_row][new_col] - 0.2 * memory->contamination_level[new_row][new_col];
+                }
+            }
+        }
+    }
+}
+
 void add_doctors(SimulationMemory *memory, int row, int col, int doctors_count, int id){
     memory->doctors[id] = create_citizen(DOCTOR, row, col, rand() % 32);
     memory->n_of_doctors[row][col] = memory->n_of_doctors[row][col] + doctors_count;
@@ -212,4 +248,5 @@ void initialize_memory(SimulationMemory *memory){
 
 void update_memory(SimulationMemory *memory){
     update_normal_citizen(memory);
+    update_firefighter(memory);
 }
