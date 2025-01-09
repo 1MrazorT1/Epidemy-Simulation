@@ -33,7 +33,6 @@ int facade_get_building(const Facade *facade, int row, int column) {
 }
 
 int facade_get_infection(const Facade *facade, int row, int column) {
-    printf("%f\n", facade->memory->contamination_level[row][column]);
     return facade->memory->contamination_level[row][column];
 }
 

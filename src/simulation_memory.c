@@ -110,6 +110,9 @@ void add_doctors(SimulationMemory *memory, int row, int col, int doctors_count, 
 }
 
 void add_dead_citizens(SimulationMemory *memory, int row, int col, int dead_citizens_count, int id){
+    memory->dead_citizens[id] = create_citizen(DEAD, row, col, rand() % 32);
+    memory->citizens[id] = NULL;
+    memory->n_of_citizens[row][col] = memory->n_of_citizens[row][col] - 1;
     memory->n_of_dead_citizens[row][col] = memory->n_of_dead_citizens[row][col] + dead_citizens_count;
 }
 
@@ -193,7 +196,6 @@ void init_contamination_level(SimulationMemory *memory){
         if(memory->buildings[rand_row][rand_col] == 3){
             memory->contamination_level[rand_row][rand_col] = (rand() % 20 + 20) * 0.01;
             infected_wastelands--;
-            printf("zone (%d, %d): %f\n", rand_row, rand_col, memory->contamination_level[rand_row][rand_col]);
         }
     }
     

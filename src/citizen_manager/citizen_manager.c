@@ -94,6 +94,9 @@ int is_going_to_be_sick(status_p* citizen){
 }
 
 int is_going_to_die(status_p* citizen, status_p** medics){
+    if(citizen->type == 5){
+        return 0;
+    }
     
     if((citizen->is_sick >= 1) && (citizen->is_sick < 5)){
         
