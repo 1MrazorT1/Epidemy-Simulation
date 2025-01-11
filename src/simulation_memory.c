@@ -50,56 +50,56 @@ void update_wastelands(SimulationMemory *memory){
                 /*NORTH WEST*/
                 if(is_valid_location(row - 1, col - 1)){
                     if((memory->buildings[row - 1][col - 1] == 3) && (memory->contamination_level[row][col] > memory->contamination_level[row - 1][col - 1]) && (rand() % 100 <= 3)){
-                        memory->contamination_level[row - 1][col - 1] += (memory->contamination_level[row][col] - memory->contamination_level[row - 1][col - 1]) * ((1 + rand() % 20) * 0.01);
+                        memory->contamination_level[row - 1][col - 1] += fabs((memory->contamination_level[row][col] - memory->contamination_level[row - 1][col - 1])) * ((1 + rand() % 20) * 0.01);
                     }
                 }
 
                 /*WEST*/
                 if(is_valid_location(row - 1, col)){
                     if((memory->buildings[row - 1][col] == 3) && (memory->contamination_level[row][col] > memory->contamination_level[row - 1][col]) && (rand() % 100 <= 3)){
-                        memory->contamination_level[row - 1][col] += (memory->contamination_level[row][col] - memory->contamination_level[row - 1][col - 1]) * ((1 + rand() % 20) * 0.01);
+                        memory->contamination_level[row - 1][col] += fabs((memory->contamination_level[row][col] - memory->contamination_level[row - 1][col - 1])) * ((1 + rand() % 20) * 0.01);
                     }
                 }
                 
                 /*SOUTH WEST*/
                 if(is_valid_location(row - 1, col + 1)){
                     if((memory->buildings[row - 1][col + 1] == 3) && (memory->contamination_level[row][col] > memory->contamination_level[row - 1][col + 1]) && (rand() % 100 <= 3)){
-                        memory->contamination_level[row - 1][col + 1] += (memory->contamination_level[row][col] - memory->contamination_level[row - 1][col - 1]) * ((1 + rand() % 20) * 0.01);
+                        memory->contamination_level[row - 1][col + 1] += fabs((memory->contamination_level[row][col] - memory->contamination_level[row - 1][col - 1])) * ((1 + rand() % 20) * 0.01);
                     }
                 }
                 
                 /*NORTH*/
                 if(is_valid_location(row, col - 1)){
                     if((memory->buildings[row][col - 1] == 3) && (memory->contamination_level[row][col] > memory->contamination_level[row][col - 1]) && (rand() % 100 <= 15)){
-                        memory->contamination_level[row][col - 1] += (memory->contamination_level[row][col] - memory->contamination_level[row - 1][col - 1]) * ((1 + rand() % 20) * 0.01);
+                        memory->contamination_level[row][col - 1] += fabs((memory->contamination_level[row][col] - memory->contamination_level[row - 1][col - 1])) * ((1 + rand() % 20) * 0.01);
                     }
                 }
                 
                 /*SOUTH*/
                 if(is_valid_location(row, col + 1)){
                     if((memory->buildings[row][col + 1] == 3) && (memory->contamination_level[row][col] > memory->contamination_level[row][col + 1]) && (rand() % 100 <= 15)){
-                        memory->contamination_level[row][col + 1] += (memory->contamination_level[row][col] - memory->contamination_level[row - 1][col - 1]) * ((1 + rand() % 20) * 0.01);
+                        memory->contamination_level[row][col + 1] += fabs((memory->contamination_level[row][col] - memory->contamination_level[row - 1][col - 1])) * ((1 + rand() % 20) * 0.01);
                     }
                 }
                 
                 /*NORTH EAST*/
                 if(is_valid_location(row + 1, col - 1)){
                     if((memory->buildings[row + 1][col - 1] == 3) && (memory->contamination_level[row][col] > memory->contamination_level[row + 1][col - 1]) && (rand() % 100 <= 20)){
-                        memory->contamination_level[row + 1][col - 1] += (memory->contamination_level[row][col] - memory->contamination_level[row - 1][col - 1]) * ((1 + rand() % 20) * 0.01);
+                        memory->contamination_level[row + 1][col - 1] += fabs((memory->contamination_level[row][col] - memory->contamination_level[row - 1][col - 1])) * ((1 + rand() % 20) * 0.01);
                     }
                 }
                 
                 /*EAST*/
                 if(is_valid_location(row + 1, col)){
                     if((memory->buildings[row + 1][col] == 3) && (memory->contamination_level[row][col] > memory->contamination_level[row + 1][col]) && (rand() % 100 <= 25)){
-                        memory->contamination_level[row + 1][7] += (memory->contamination_level[row][col] - memory->contamination_level[row - 1][col - 1]) * ((1 + rand() % 20) * 0.01);
+                        memory->contamination_level[row + 1][col] += fabs((memory->contamination_level[row][col] - memory->contamination_level[row - 1][col - 1])) * ((1 + rand() % 20) * 0.01);
                     }
                 }
                 
                 /*SOUTH EAST*/
                 if(is_valid_location(row + 1, col + 1)){
                     if((memory->buildings[row + 1][col + 1] == 3) && (memory->contamination_level[row][col] > memory->contamination_level[row + 1][col + 1]) && (rand() % 100 <= 20)){
-                        memory->contamination_level[row + 1][col + 1] += (memory->contamination_level[row][col] - memory->contamination_level[row - 1][col - 1]) * ((1 + rand() % 20) * 0.01);
+                        memory->contamination_level[row + 1][col + 1] += fabs((memory->contamination_level[row][col] - memory->contamination_level[row - 1][col - 1])) * ((1 + rand() % 20) * 0.01);
                     }
                 }
             }
@@ -508,10 +508,15 @@ void initialize_memory(SimulationMemory *memory){
 }
 
 void update_memory(SimulationMemory *memory){
+    //for(int row = 0; row < CITY_ROWS; row++){
+    //    for(int col = 0; col < CITY_COLUMNS; col++){
+    //        printf("(%d, %d) = %f\n", row, col ,memory->contamination_level[row][col]);
+    //    }
+    //}
     update_normal_citizen(memory);
     update_firefighter(memory);
     update_doctor(memory);
-    //update_wastelands(memory);
+    update_wastelands(memory);
     //update_hospital(memory);
     //update_firestation(SimulationMemory *memory)
 }
