@@ -363,7 +363,6 @@ void initialize_memory(SimulationMemory *memory){
 
 void update_memory(SimulationMemory *memory){
     //update_wastelands(memory);
-
     update_normal_citizen(memory);
     update_firefighter(memory);
     update_doctor(memory);
