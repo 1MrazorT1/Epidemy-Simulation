@@ -105,6 +105,10 @@ void update_wastelands(SimulationMemory *memory){
     }
 }
 
+int can_enter_the_hospital(status_t character){
+    return ((character->type == DOCTOR) || (character->type == FIREFIGHTER) || (character->is_sick > 0));
+}
+
 void set_houses(SimulationMemory *memory){
     int i = 0;
     while (i < 12){
