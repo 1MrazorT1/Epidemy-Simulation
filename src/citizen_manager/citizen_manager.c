@@ -30,12 +30,18 @@ status_p *create_citizen(Person e,unsigned int x, unsigned int y,int id_name){
     citi->days_spent_in_hospital_asHealthy = 0;
     citi->type = e;
     strcpy(citi->name, names[id_name]);
-
-    if (e == DOCTOR){
-        /* to complete after */
-    }
+    citi->measuring_tool = 0;
+    citi->sprayer = 0;
     return citi;
     
+}
+
+void acquire_measuring_tool(status_p* character){
+    character->measuring_tool = 1;
+}
+
+void refill_sprayer(status_p* character, int amount){
+    character->sprayer += amount;
 }
 
 int can_enter_the_hospital(status_p* character){

@@ -25,8 +25,9 @@ typedef struct status {
     Person type;
     int  days_spent_in_hospital_asHealthy;
     int days_out_hospital;
-    int care_pouch;   /* if doctor out of hopital=> 5 care pouch 
-                        ..  ..     in  the   ..  => 10 care pouch  */
+    int care_pouch;
+    int measuring_tool;
+    int sprayer;
 }status_p;
 
 /**

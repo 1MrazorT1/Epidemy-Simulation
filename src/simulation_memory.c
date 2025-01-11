@@ -37,6 +37,8 @@ void set_fire_stations(SimulationMemory *memory){
     set_building(memory, CITY_ROWS - 1, 0, 0);
 }
 
+
+
 int is_valid_location(int row, int col){
     return ((row >=0) && (row <=6) && (col >=0) && (col <=6));
 }
@@ -107,6 +109,69 @@ void update_wastelands(SimulationMemory *memory){
 
 int is_in_hospital(status_p* character){
     return((character->positionX == HOSPITAL_ROWS) && (character->positionY == HOSPITAL_COLUMNS));
+}
+
+int is_in_firestation(status_p* character){
+    return(is_in_top_firestation(character) || is_in_buttom_firestation(character));
+}
+
+int is_in_top_firestation(status_p* character){
+    return((character->positionX == FIRESTATION_TOP_X) && (character->positionY == FIRESTATION_TOP_X));
+}
+
+int is_in_buttom_firestation(status_p* character){
+    return((character->positionX == FIRESTATION_BUTTOM_X) && (character->positionY == FIRESTATION_BUTTOM_X));
+}
+
+int is_allowed_in_the_firestation(SimulationMemory *memory, status_p* character){
+    if(character->type == FIREFIGHTER){
+        return 1;
+    }else if(memory->buildings[character->positionX][character->positionY] == 0){
+        for(int i = 0; i < MAX_FIREFIGHTER; i++){
+            if((character->positionX == memory->firefighters[i]->positionX) && (character->positionY == memory->firefighters[i]->positionY)){
+                return 1;
+            }
+        }
+    }else{
+        return 0;
+    }
+}
+
+void update_firestation(SimulationMemory *memory){
+    for(int i = 0; i < MAX_NORMAL_CITIZEN; i++){
+        if(is_in_firestation(memory->citizens[i])){
+            if(!is_allowed_in_the_firestation(memory, memory->citizens[i])){
+                move(memory->citizens[i]);
+            }else{
+                memory->citizens[i]->contamination *= 0.8;
+                acquire_measuring_tool(memory->citizens[i]);
+            }
+        }
+    }
+
+    for(int i = 0; i < MAX_DOCTORS; i++){
+        if(is_in_firestation(memory->doctors[i])){
+            if(!is_allowed_in_the_firestation(memory, memory->doctors[i])){
+                move(memory->doctors[i]);
+            }else{
+                memory->doctors[i]->contamination *= 0.8;
+                acquire_measuring_tool(memory->doctors[i]);
+            }
+        }
+    }
+
+    for(int i = 0; i < MAX_FIREFIGHTER; i++){
+        if(is_in_firestation(memory->firefighters[i])){
+            if(!is_allowed_in_the_firestation(memory, memory->firefighters[i])){
+                move(memory->firefighters[i]);
+            }else{
+                memory->firefighters[i]->contamination *= 0.8;
+                acquire_measuring_tool(memory->firefighters[i]);
+                refill_sprayer(memory->firefighters[i], 100 - memory->firefighters[i]->sprayer);
+            }
+        }
+    }
+
 }
 
 void be_treated_in_hospital(status_p* character, double hospital_contamination_level){
@@ -248,6 +313,12 @@ void update_normal_citizen(SimulationMemory *memory){
 
 void add_firefighters(SimulationMemory *memory, int row, int col, int firefighters_count, int id){
     memory->firefighters[id] = create_citizen(FIREFIGHTER, row, col, rand() % 32);
+    acquire_measuring_tool(memory->firefighters[id]);
+    if(is_in_firestation(memory->firefighters[id])){
+        refill_sprayer(memory->firefighters[id], 100);
+    }else{
+        refill_sprayer(memory->firefighters[id], 50);
+    }
     memory->n_of_firefighters[row][col] = memory->n_of_firefighters[row][col] + firefighters_count;
 }
 
@@ -437,8 +508,10 @@ void initialize_memory(SimulationMemory *memory){
 }
 
 void update_memory(SimulationMemory *memory){
-    //update_wastelands(memory);
     update_normal_citizen(memory);
     update_firefighter(memory);
     update_doctor(memory);
+    //update_wastelands(memory);
+    //update_hospital(memory);
+    //update_firestation(SimulationMemory *memory)
 }
