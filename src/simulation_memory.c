@@ -108,7 +108,7 @@ void update_wastelands(SimulationMemory *memory){
 }
 
 int is_in_hospital(status_p* character){
-    return((character->positionX == HOSPITAL_ROWS) && (character->positionY == HOSPITAL_COLUMNS));
+    return((character != NULL) && (character->positionX == HOSPITAL_ROWS) && (character->positionY == HOSPITAL_COLUMNS));
 }
 
 int is_in_firestation(status_p* character){
@@ -207,23 +207,27 @@ int count_medics_in_hospital(SimulationMemory *memory, int ensure_not_sick){
 void heal_in_hospital(SimulationMemory *memory, int number_of_medics){
     int* IDs = NULL;
     int n = get_IDs(HOSPITAL_ROWS, HOSPITAL_COLUMNS, memory->citizens, IDs);
-    while(number_of_medics){
+    if(IDs != NULL){
+        while(number_of_medics){
 
-        /*figure out the sickest among the ones in the hospital*/
-        int sickest_citizen = -1;
-        int sickness = -1;
-        for(int i = 0; i < n; i++){
-            if((memory->citizens[IDs[i]]->is_sick > 0) && (memory->citizens[IDs[i]]->is_sick > sickness)){
-                sickness = memory->citizens[IDs[i]]->is_sick;
-                sickest_citizen = i;
+            /*figure out the sickest among the ones in the hospital*/
+            int sickest_citizen = -1;
+            int sickness = -1;
+    
+            for(int i = 0; i < n; i++){
+                if((memory->citizens[IDs[i]]->is_sick > 0) && (memory->citizens[IDs[i]]->is_sick > sickness)){
+                    sickness = memory->citizens[IDs[i]]->is_sick;
+                    sickest_citizen = i;
+                }
             }
-        }
 
-        /*healing by order of sickness*/
-        if(sickest_citizen != -1){
-            be_healed_in_hospital(memory->citizens[IDs[sickest_citizen]]);
+            /*healing by order of sickness*/
+            if(sickest_citizen != -1){
+                be_healed_in_hospital(memory->citizens[IDs[sickest_citizen]]);
+            }
+
+            number_of_medics--;
         }
-        number_of_medics--;
     }
 }
 
@@ -501,7 +505,7 @@ void init_contamination_level(SimulationMemory *memory){
 
 void initialize_memory(SimulationMemory *memory){
     //set_headline(memory);
-    //set_day(memory, 1);
+    set_day(memory, 1);
     set_buildings(memory);
     init_contamination_level(memory);
     init_people(memory, 25, 6, 4, 0, 0);
@@ -517,6 +521,6 @@ void update_memory(SimulationMemory *memory){
     update_firefighter(memory);
     update_doctor(memory);
     update_wastelands(memory);
-    //update_hospital(memory);
+    update_hospital(memory);
     //update_firestation(SimulationMemory *memory)
 }
