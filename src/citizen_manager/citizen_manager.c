@@ -38,6 +38,10 @@ status_p *create_citizen(Person e,unsigned int x, unsigned int y,int id_name){
     
 }
 
+int can_enter_the_hospital(status_p* character){
+    return ((character->type == DOCTOR) || (character->type == FIREFIGHTER) || (character->is_sick > 0));
+}
+
 void move(status_p* character){
     int rand_dx = rand() % 3;
     int rand_dy = rand() % 3;
@@ -74,6 +78,14 @@ void move(status_p* character){
     }
     character->positionX = character->positionX + rand_dx;
     character->positionY = character->positionY + rand_dy;
+
+    /*Checking if the character can move to the hospital if they're trying to*/
+    if((character->positionX == 3) && (character->positionY == 3)){
+        if(!can_enter_the_hospital(character)){
+            character->positionX = character->positionX - rand_dx;
+            character->positionY = character->positionY - rand_dy;
+        }
+    }
 }
 
 int normal_citizen_moving(status_p* citizen, double local_contamination[7][7]){
