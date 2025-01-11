@@ -105,9 +105,83 @@ void update_wastelands(SimulationMemory *memory){
     }
 }
 
-void entering_hospital(status_p* character, double hospital_contamination_level){
+int is_in_hospital(status_p* character){
+    return((character->positionX == HOSPITAL_ROWS) && (character->positionY == HOSPITAL_COLUMNS));
+}
+
+void be_treated_in_hospital(status_p* character, double hospital_contamination_level){
     character->death_chance /= 4;
-    if()
+    if(character->contamination > hospital_contamination_level){
+        character->contamination *= 0.9;
+        if(character->contamination < hospital_contamination_level){
+            character->contamination = hospital_contamination_level;
+        }
+    }
+}
+
+void be_healed_in_hospital(status_p* character){
+    character->is_sick = 0;
+}
+
+int count_medics_in_hospital(SimulationMemory *memory, int ensure_not_sick){
+    int count = 0;
+    for(int i = 0; i < MAX_DOCTORS; i++){
+        if(is_in_hospital(memory->doctors[i])){
+            if(ensure_not_sick){
+                if(memory->doctors[i]->is_sick == 0){
+                    count++;
+                }
+            }else{
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
+void heal_in_hospital(SimulationMemory *memory, int number_of_medics){
+    int* IDs = NULL;
+    int n = get_IDs(HOSPITAL_ROWS, HOSPITAL_COLUMNS, memory->citizens, IDs);
+    while(number_of_medics){
+
+        /*figure out the sickest among the ones in the hospital*/
+        int sickest_citizen = -1;
+        int sickness = -1;
+        for(int i = 0; i < n; i++){
+            if((memory->citizens[IDs[i]]->is_sick > 0) && (memory->citizens[IDs[i]]->is_sick > sickness)){
+                sickness = memory->citizens[IDs[i]]->is_sick;
+                sickest_citizen = i;
+            }
+        }
+
+        /*healing by order of sickness*/
+        if(sickest_citizen != -1){
+            be_healed_in_hospital(memory->citizens[IDs[sickest_citizen]]);
+        }
+        number_of_medics--;
+    }
+}
+
+void update_hospital(SimulationMemory *memory){
+    for(int i = 0; i < MAX_NORMAL_CITIZEN; i++){
+        if(is_in_hospital(memory->citizens[i])){
+            be_treated_in_hospital(memory->citizens[i], memory->contamination_level[HOSPITAL_ROWS][HOSPITAL_COLUMNS]);
+        }
+    }
+
+    for(int i = 0; i < MAX_FIREFIGHTER; i++){
+        if(is_in_hospital(memory->firefighters[i])){
+            be_treated_in_hospital(memory->firefighters[i], memory->contamination_level[HOSPITAL_ROWS][HOSPITAL_COLUMNS]);
+        }
+    }
+
+    for(int i = 0; i < MAX_DOCTORS; i++){
+        if(is_in_hospital(memory->doctors[i])){
+            be_treated_in_hospital(memory->doctors[i], memory->contamination_level[HOSPITAL_ROWS][HOSPITAL_COLUMNS]);
+        }
+    }
+
+    heal_in_hospital(memory, count_medics_in_hospital(memory, 1));
 }
 
 void set_houses(SimulationMemory *memory){
@@ -215,13 +289,9 @@ void update_firefighter(SimulationMemory *memory){
     }
 }
 
-int is_in_hospital(SimulationMemory *memory, status_p* character){
-    return memory->buildings[character->positionX][character->positionY] == 1;
-}
-
 void add_doctors(SimulationMemory *memory, int row, int col, int doctors_count, int id){
     memory->doctors[id] = create_citizen(DOCTOR, row, col, rand() % 32);
-    if(is_in_hospital(memory, memory->doctors[id])){
+    if(is_in_hospital(memory->doctors[id])){
         memory->doctors[id]->care_pouch = 10;
     }else{
         memory->doctors[id]->care_pouch = 5;
@@ -238,7 +308,7 @@ void update_doctor(SimulationMemory *memory){
             int new_col = memory->doctors[i]->positionY;
             memory->n_of_doctors[old_row][old_col] = memory->n_of_doctors[old_row][old_col] - 1;
             memory->n_of_doctors[new_row][new_col] = memory->n_of_doctors[new_row][new_col] + 1;
-            if(is_in_hospital(memory, memory->doctors[i])){
+            if(is_in_hospital(memory->doctors[i])){
                 memory->doctors[i]->care_pouch = memory->doctors[i]->care_pouch + 10;
             }
             if(memory->doctors[i]->is_sick == 0){
@@ -249,17 +319,17 @@ void update_doctor(SimulationMemory *memory){
                     double max = 0;
                     int k = -1;
                     for(int j = 0; j < n; j++){
-                        if((memory->citizens[IDs[j]]->is_sick > 0) && (!is_in_hospital(memory, memory->citizens[IDs[j]]))){
+                        if((memory->citizens[IDs[j]]->is_sick > 0) && (!is_in_hospital(memory->citizens[IDs[j]]))){
                             if(memory->citizens[IDs[j]]->contamination > max){
                                 max = memory->citizens[IDs[j]]->contamination;
                                 k = j;
                             }
                         }
                     }
-                    heal(memory->doctors[i], memory->citizens[IDs[k]], is_in_hospital(memory, memory->citizens[IDs[k]]));
+                    heal(memory->doctors[i], memory->citizens[IDs[k]], is_in_hospital(memory->citizens[IDs[k]]));
                 }
             }else if(memory->doctors[i]->is_sick < 10){
-                heal(memory->doctors[i], memory->doctors[i], is_in_hospital(memory, memory->doctors[i]));
+                heal(memory->doctors[i], memory->doctors[i], is_in_hospital(memory->doctors[i]));
             }
         }
     }
