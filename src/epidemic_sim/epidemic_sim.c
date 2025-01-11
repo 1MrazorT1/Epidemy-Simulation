@@ -1,5 +1,8 @@
 #include "epidemic_sim.h"
 #include "logger.h"
+#include "posix_semaphore.h"
+#include "simulation_memory.h"
+
 
 /* 
  * ----------------------------------------------------------------------------
@@ -31,8 +34,8 @@ SimulationMemory* setup_shared_memory(){
         handle_fatal_error("error : ftruncate()");
     }
 
-    p = mmap(0, sizeof(SimulationMemory), prot_read | prot_write, map_shared, shm_fd, 0);
-    if (ptr == MAP_FAILED) {
+    p = mmap(0, sizeof(SimulationMemory), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+    if (p == MAP_FAILED) {
         handle_fatal_error("error : mmap()");
     }
 
@@ -43,7 +46,7 @@ SimulationMemory* setup_shared_memory(){
 void start_simulation(){
     pid_t pid = fork();
     if (pid == -1){
-        handle_fatal_error("Error: fork()")
+        handle_fatal_error("Error: fork()");
     }
     else if (pid == 0){
         /*to complete : run all the other programs*/
@@ -54,8 +57,8 @@ void start_simulation(){
 }
 
 void end_simulation(int signal){
-    SimulationMemory_t * memory;
-    semaphore_t sem;
+    SimulationMemory * memory;
+    semaphore_t* sem;
     sem = open_semaphore("/epidemic_semaphore");
     P(sem);
     memory = get_data();
@@ -72,7 +75,7 @@ void end_simulation(int signal){
     }
     V(sem);
  
-    if (munmap(memory, sizeof(SimulationMemory_t)) == -1) {
+    if (munmap(memory, sizeof(SimulationMemory)) == -1) {
         perror("Error unmapping shared memory");
     }
     shm_unlink("/epidemic_memory");
