@@ -127,7 +127,7 @@ epidemic_sim: .tmp/epidemic_sim/main.o .tmp/epidemic_sim/epidemic_sim.o \
               .tmp/logger.o .tmp/mq_close.o .tmp/mq_getattr.o .tmp/mq_internal_fs.o \
               .tmp/mq_notify.o .tmp/mq_open.o .tmp/mq_receive.o .tmp/mq_send.o \
               .tmp/mq_setattr.o .tmp/mq_timedreceive.o .tmp/mq_timedsend.o \
-              .tmp/mq_unlink.o
+              .tmp/mq_unlink.o .tmp/posix_semaphore.o
 	$(CC) $^ -o $(OUTPUT_DIR)/$@ $(LDFLAGS)
 else
 epidemic_sim: .tmp/epidemic_sim/main.o .tmp/epidemic_sim/epidemic_sim.o .tmp/logger.o
@@ -144,6 +144,9 @@ endif
 #                              VARIOUS FILES
 # -----------------------------------------------------------------------------
 #
+
+.tmp/posix_semaphore.o: $(SRC_DIR)/common/posix_semaphore.c $(INCLUDE_DIR)/posix_semaphore.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $(@)
 
 .tmp/logger.o: $(SRC_DIR)/logger.c $(INCLUDE_DIR)/logger.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $(@)

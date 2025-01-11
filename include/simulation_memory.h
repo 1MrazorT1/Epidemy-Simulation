@@ -35,12 +35,13 @@ struct simulation_memory_s {
                             if 0 not
                             else yes but need to precise the end situation
                             */
-    int pids[4];
+    int pids[5];
     /*
     pids[0] : epidemic_simulation 
     pids[1]: citizen manager
     pids[2]: timer
     pids[3] : press agency 
+    pid[4] : viewer
     */
 };
 

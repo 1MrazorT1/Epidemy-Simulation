@@ -43,6 +43,21 @@ SimulationMemory* setup_shared_memory(){
 
 }
 
+void next_day(){
+    SimulationMemory* memory;
+    semaphore_t* sem;
+    sem = open_semaphore("/epidemic_semaphore");
+    P(sem);
+    memory = get_data();
+    memory->day++;
+    update_wastelands(memory);
+    update_normal_citizen(memory);
+    update_doctor(memory);
+    update_firefighter(memory);
+
+    /*to complete*/
+}   
+
 void start_simulation(){
     pid_t pid = fork();
     if (pid == -1){
@@ -50,10 +65,151 @@ void start_simulation(){
     }
     else if (pid == 0){
         /*to complete : run all the other programs*/
+        manage_timer();
     }
     else{
         /*to complete : run epidemic sim as parent processus*/
     }
+}
+
+void epidemic_sim(){
+    /*to complete : use next_day, ...*/
+
+}
+
+void manage_timer(){
+
+    SimulationMemory * memory;
+    semaphore_t *sem;
+    sem = open_semaphore("/epidemic_semaphore");
+    P(sem);
+    memory = get_data();
+    /* TIMER PID */
+    memory->pids[2] = getpid(); 
+    V(sem);
+
+    if (munmap(memory, sizeof(memory)) == -1) {
+        perror("munmap");
+    }
+
+    /* CALLS MANAGE_CITIZEN_MANAGER*/
+    pid_t pid = fork();
+    if (pid == -1) {
+        handle_fatal_error("Error fork() in manage_timer() ");
+    } 
+    else if (pid == 0) {
+        manage_citizen_manager();
+    } 
+    else {
+        /* EXEC TIMER */
+        wait(NULL);
+        }
+}
+
+void manage_citizen_manager(){
+    printf("citizen_manager process : %d\n", getpid());
+
+    SimulationMemory * memory;
+    semaphore_t *sem;
+    sem = open_semaphore("/epidemic_semaphore");
+    P(sem);
+    
+    memory = get_data();
+    
+    /* CITIZEN_MANAGER PID */
+    memory->pids[1] = getpid(); 
+    V(sem);
+
+    if (munmap(memory, sizeof(memory)) == -1) {
+        perror("munmap");
+    }
+
+    pid_t pid = fork();
+    if (pid == -1) {
+        handle_fatal_error("Error: first fork() in citizen_manager");
+    } 
+    else if (pid == 0) {
+        manage_press_agency();
+    }
+    else {
+        /* EXEC CITIZEN_MANAGER */ 
+        pid = fork();
+        if (pid == -1){
+            handle_fatal_error("Error: second fork() in manage_citizen_manger");
+        }
+        else if (pid == 0){
+            if (execl("./bin/citizen_manager", NULL) == -1) {
+                handle_fatal_error("Error: execl citizen_manager");
+            }
+        }
+        wait(NULL);
+        wait(NULL);
+    
+    }
+}
+
+void manage_press_agency(){
+    printf("press_agency process : %d\n", getpid());
+
+    SimulationMemory * memory;
+    semaphore_t *sem;
+    sem = open_semaphore("/epidemic_semaphore");
+    P(sem);
+    
+    memory = get_data();
+    
+    /* PRESS_AGENCY PID */
+    memory->pids[4] = getpid(); 
+    V(sem);
+
+    if (munmap(memory, sizeof(memory)) == -1) {
+        perror("munmap");
+    }
+
+    pid_t pid = fork();
+    if (pid == -1) {
+        handle_fatal_error("Error: first fork() in managa_press_agency");
+    } 
+    else if (pid == 0) {
+        manage_viewer();
+    }
+    else {
+        pid = fork();
+        if (pid == -1){
+            handle_fatal_error("Error; second fork() in manage_press_agency");
+        }
+        else if (pid == 0){
+            if (execl("./bin/press_agency", NULL) == -1) {
+                handle_fatal_error("Error: execl press_agency");
+            }
+        }
+        wait(NULL);
+        wait(NULL);
+    }
+}
+
+
+void manage_viewer(){
+    printf("viewer process: %d\n", getpid());
+    SimulationMemory * memory;
+    semaphore_t *sem;
+    sem = open_semaphore("/epidemic_semaphore");
+    P(sem);
+    memory = get_data();
+
+    /* VIEWER PID */
+    memory->pids[4] = getpid(); 
+    V(sem);
+
+    if (munmap(memory, sizeof(memory)) == -1) {
+        perror("munmap");
+    }
+
+    /* RUNNING VIEWER */
+    if (execl("./bin/viewer", NULL) == -1) {
+        handle_fatal_error("Error: execl viewer");
+    }
+    
 }
 
 void end_simulation(int signal){
@@ -78,7 +234,9 @@ void end_simulation(int signal){
     if (munmap(memory, sizeof(SimulationMemory)) == -1) {
         perror("Error unmapping shared memory");
     }
+    /*erase from shared memory*/
     shm_unlink("/epidemic_memory");
     exit(EXIT_SUCCESS);
 
 }
+
