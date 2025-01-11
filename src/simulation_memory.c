@@ -356,9 +356,14 @@ void init_contamination_level(SimulationMemory *memory){
 void initialize_memory(SimulationMemory *memory){
     //set_headline(memory);
     //set_day(memory, 1);
+    semaphore_t sem;
+    sem = open_semaphore("epidemic_semaphore");
+    P(sem);
     set_buildings(memory);
     init_contamination_level(memory);
     init_people(memory, 25, 6, 4, 0, 0);
+    V(sem);
+
 }
 
 void update_memory(SimulationMemory *memory){

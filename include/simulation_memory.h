@@ -30,6 +30,18 @@ struct simulation_memory_s {
     status_p* doctors[4];
     status_p* dead_citizens[MAX_NORMAL_CITIZEN];
     status_p* ashes[MAX_NORMAL_CITIZEN];
+
+    int has_simulation_ended; /*
+                            if 0 not
+                            else yes but need to precise the end situation
+                            */
+    int pids[4];
+    /*
+    pids[0] : epidemic_simulation 
+    pids[1]: citizen manager
+    pids[2]: timer
+    pids[3] : press agency 
+    */
 };
 
 
