@@ -4,7 +4,7 @@
 /**
  * @file epidemic_simulation.h
 
- * @brief Prototypes of functions used by epidemic_simulation.c
+ * @brief This files contains prototypes of functions used by epidemic_simulation.c
  */
 
 
@@ -75,7 +75,7 @@ void epidemic_simulation();
 
 /**
  * @brief Start the epidemic simulation. In the parent process, 
- * it runs the function which manages signal to coordinate all the sub programs.
+ * it runs the function which manages signals to coordinate all the sub programs.
  * The child process runs all the sub programs. 
  */
 void start_simulation();
@@ -88,7 +88,7 @@ void start_simulation();
  * Sends signals to child processes to terminate them.
  * Releases ressources.
  *
- * @param 
+ * @param signal 
  */
 void end_simulation(int signal);
 

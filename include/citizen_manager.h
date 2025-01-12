@@ -1,6 +1,14 @@
 #ifndef CITIZEN_MANAGER_H
 #define CITIZEN_MANAGER_H
 
+/**
+* @file citizen_manager.h
+*
+* @brief This file contains structures and prototypes of functions to manage the citizen behaviors.
+*
+*
+*/
+
 #include <pthread.h>
 
 #define CITIZEN_MAX_NAME_LENGTH 32
