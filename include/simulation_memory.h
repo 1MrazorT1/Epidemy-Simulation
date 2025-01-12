@@ -12,6 +12,7 @@
 #include <sys/types.h>
 #include "citizen_manager.h"
 
+
 #define SIMULATION_MEMORY_PATH "/epidemic2023"
 #define CITY_ROWS    7
 #define CITY_COLUMNS 7
@@ -49,7 +50,6 @@ struct simulation_memory_s {
     status_p* dead_citizens[MAX_NORMAL_CITIZEN];
     status_p* ashes[MAX_NORMAL_CITIZEN];
 
-<<<<<<< HEAD
     NewsMemory* news;
 };
 
@@ -60,9 +60,8 @@ struct news{
     int n_of_ashes[SIMULATION_DURATION];
     double average_contamination_level[SIMULATION_DURATION];
     char* measure_to_be_taken;
-=======
+
     character_thread_t* citizen_threads[MAX_NORMAL_CITIZEN];
->>>>>>> 2abc2f872037b4a7f98b0ecd4cc4eb570fd5db5a
 
     int has_simulation_ended; /*
                             if 0 not
