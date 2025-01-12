@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 #include "posix_semaphore.h"
-#include "simulation_memory.h"
 /**
  * \file posix_semaphore.c
  * \brief A simple program used to implement a POSIX semaphore and read data from the shared memory

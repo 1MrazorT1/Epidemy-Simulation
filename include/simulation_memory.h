@@ -1,6 +1,14 @@
 #ifndef SIMULATION_MEMORY_H
 #define SIMULATION_MEMORY_H
 
+/**
+ * @file simulation_memory.h
+
+ * @brief Defines structures and functions used to work on the shared memory.
+ * 
+ */
+
+
 #include <sys/types.h>
 #include "citizen_manager.h"
 
@@ -47,8 +55,22 @@ struct simulation_memory_s {
     */
 };
 
-
+/**
+* @brief Sets the headline of the day in the simulation memory.
+*
+* @param SimulationMemory pointer to the shared memory.
+*
+*
+*/
 void set_headline(SimulationMemory *memory);
+
+/**
+* @brief Sets the current day in the simulation memory.
+*
+* @param SimulationMemory pointer to the shared memory.
+*
+*
+*/
 void set_day(SimulationMemory *memory, int day);
 void set_pid_epidemic_sim(SimulationMemory *memory, pid_t pid_epidemic_sim);
 void set_building(SimulationMemory *memory, int row, int col, int building_type);
