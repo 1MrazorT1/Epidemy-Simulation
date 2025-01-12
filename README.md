@@ -9,6 +9,9 @@
 ## Project Description
 This project simulates the spread of an epidemic within a city. Two approaches were used: a monothread simulation and a multithread one. Using various mechanisms such as inter-process communication, shared memory, and threading. The goal is to model citizen roles and their interactions to manage and mitigate the contamination.
 
+## Commits History
+To view the full history of commits on this project, please make sure that you are on the homepage of the projecture's gitlab repository. Once you enter any of the folders, you will no longer be able to see them because the organization of the root happened at late stages of development.
+
 ## Setup and Execution
 ### Prerequisites
 - A Linux environment (for ncurses or graphical libraries).
@@ -74,5 +77,5 @@ epidemy-os/
 ```         
 
 
-## Additional Information
+## Report Location
 Refer to the report in the `doc/` folder for a detailed explanation of the project design, challenges encountered, and solutions implemented.
