@@ -116,11 +116,11 @@ int is_in_firestation(status_p* character){
 }
 
 int is_in_top_firestation(status_p* character){
-    return((character->positionX == FIRESTATION_TOP_X) && (character->positionY == FIRESTATION_TOP_X));
+    return((character != NULL) && (character->positionX == FIRESTATION_TOP_X) && (character->positionY == FIRESTATION_TOP_X));
 }
 
 int is_in_buttom_firestation(status_p* character){
-    return((character->positionX == FIRESTATION_BUTTOM_X) && (character->positionY == FIRESTATION_BUTTOM_X));
+    return((character != NULL) && (character->positionX == FIRESTATION_BUTTOM_X) && (character->positionY == FIRESTATION_BUTTOM_X));
 }
 
 int is_allowed_in_the_firestation(SimulationMemory *memory, status_p* character){
@@ -135,43 +135,6 @@ int is_allowed_in_the_firestation(SimulationMemory *memory, status_p* character)
     }else{
         return 0;
     }
-}
-
-void update_firestation(SimulationMemory *memory){
-    for(int i = 0; i < MAX_NORMAL_CITIZEN; i++){
-        if(is_in_firestation(memory->citizens[i])){
-            if(!is_allowed_in_the_firestation(memory, memory->citizens[i])){
-                move(memory->citizens[i]);
-            }else{
-                memory->citizens[i]->contamination *= 0.8;
-                acquire_measuring_tool(memory->citizens[i]);
-            }
-        }
-    }
-
-    for(int i = 0; i < MAX_DOCTORS; i++){
-        if(is_in_firestation(memory->doctors[i])){
-            if(!is_allowed_in_the_firestation(memory, memory->doctors[i])){
-                move(memory->doctors[i]);
-            }else{
-                memory->doctors[i]->contamination *= 0.8;
-                acquire_measuring_tool(memory->doctors[i]);
-            }
-        }
-    }
-
-    for(int i = 0; i < MAX_FIREFIGHTER; i++){
-        if(is_in_firestation(memory->firefighters[i])){
-            if(!is_allowed_in_the_firestation(memory, memory->firefighters[i])){
-                move(memory->firefighters[i]);
-            }else{
-                memory->firefighters[i]->contamination *= 0.8;
-                acquire_measuring_tool(memory->firefighters[i]);
-                refill_sprayer(memory->firefighters[i], 100 - memory->firefighters[i]->sprayer);
-            }
-        }
-    }
-
 }
 
 void be_treated_in_hospital(status_p* character, double hospital_contamination_level){
@@ -295,6 +258,16 @@ void update_normal_citizen(SimulationMemory *memory){
         int old_row = memory->citizens[i]->positionX;
         int old_col = memory->citizens[i]->positionY;
         if (normal_citizen_moving(memory->citizens[i], memory->contamination_level) == 1){
+            if(is_in_firestation(memory->citizens[i])){
+                if(!is_allowed_in_the_firestation(memory, memory->citizens[i])){
+                    move(memory->citizens[i]);
+                }else{
+                    memory->citizens[i]->contamination *= 0.8;
+                    acquire_measuring_tool(memory->citizens[i]);
+                }
+            }
+
+
             int new_row = memory->citizens[i]->positionX;
             int new_col = memory->citizens[i]->positionY;
             memory->n_of_citizens[old_row][old_col] = memory->n_of_citizens[old_row][old_col] - 1;
@@ -343,6 +316,18 @@ void update_firefighter(SimulationMemory *memory){
         int old_row = memory->firefighters[i]->positionX;
         int old_col = memory->firefighters[i]->positionY;
         if (firefighter_moving(memory->firefighters[i], memory->contamination_level) == 1){
+            if(is_in_firestation(memory->firefighters[i])){
+                if(!is_allowed_in_the_firestation(memory, memory->firefighters[i])){
+                    move(memory->firefighters[i]);
+                }else{
+                    memory->firefighters[i]->contamination *= 0.8;
+                    acquire_measuring_tool(memory->firefighters[i]);
+                    refill_sprayer(memory->firefighters[i], 100 - memory->firefighters[i]->sprayer);
+                }
+            }
+
+
+
             int new_row = memory->firefighters[i]->positionX;
             int new_col = memory->firefighters[i]->positionY;
             memory->n_of_firefighters[old_row][old_col] = memory->n_of_firefighters[old_row][old_col] - 1;
@@ -379,6 +364,18 @@ void update_doctor(SimulationMemory *memory){
         int old_row = memory->doctors[i]->positionX;
         int old_col = memory->doctors[i]->positionY;
         if (doctor_moving(memory->doctors[i], memory->contamination_level) == 1){
+            if(is_in_firestation(memory->doctors[i])){
+                if(!is_allowed_in_the_firestation(memory, memory->doctors[i])){
+                    move(memory->doctors[i]);
+                }else{
+                    memory->doctors[i]->contamination *= 0.8;
+                    acquire_measuring_tool(memory->doctors[i]);
+                }
+            }
+
+
+
+
             int new_row = memory->doctors[i]->positionX;
             int new_col = memory->doctors[i]->positionY;
             memory->n_of_doctors[old_row][old_col] = memory->n_of_doctors[old_row][old_col] - 1;
@@ -512,15 +509,9 @@ void initialize_memory(SimulationMemory *memory){
 }
 
 void update_memory(SimulationMemory *memory){
-    //for(int row = 0; row < CITY_ROWS; row++){
-    //    for(int col = 0; col < CITY_COLUMNS; col++){
-    //        printf("(%d, %d) = %f\n", row, col ,memory->contamination_level[row][col]);
-    //    }
-    //}
     update_normal_citizen(memory);
     update_firefighter(memory);
     update_doctor(memory);
     update_wastelands(memory);
     update_hospital(memory);
-    //update_firestation(SimulationMemory *memory)
 }
