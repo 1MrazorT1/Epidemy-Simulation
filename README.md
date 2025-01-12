@@ -23,8 +23,12 @@ To view the full history of commits on this project, please make sure that you a
    git clone https://gitlab.ecole.ensicaen.fr/toujani/epidemy-os.git
    cd epidemy-os
    ```
+2. ```bash
+   make
+   ```
+   This way you will compile the two parts of the project. Even if you see errors in the compilation, that can be related to only one method and not both of them. So to choose what method to run, please follow the instructions below:
 #### Monothread_simulation
-1. Build and run the sim:
+1. Run the sim:
    ```bash
    make run-mono
    ```
@@ -34,13 +38,19 @@ To view the full history of commits on this project, please make sure that you a
    ```
 
 #### Multithread_simulation
-1. Build and run the sim:
+1. Run the sim:
    ```bash
    make run-multi
    ```
 2. Clean:
    ```bash
    make clean-multi
+   ```
+
+#### For full cleaning
+3. Full cleaning of the project:
+   ```bash
+   make clean
    ```
 
 ## Project Structure
