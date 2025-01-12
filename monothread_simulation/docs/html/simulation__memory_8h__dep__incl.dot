@@ -1,0 +1,12 @@
+digraph "include/simulation_memory.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="include/simulation\l_memory.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This file defines structures and functions used to work on the shared memory."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="include/facade.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$facade_8h_source.html",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="include/viewer.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$viewer_8h.html",tooltip="This file contains the functions and structures for the simulation viewer."];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

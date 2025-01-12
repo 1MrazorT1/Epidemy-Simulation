@@ -153,11 +153,6 @@ void add_firefighters(SimulationMemory *memory, int row, int col, int firefighte
  * @param doctors_count The number of doctors to add.
  * @param id The ID of the doctor to assign.
  */
-
-/**
- * @brief Updates the movement, health, and actions of doctors according to the rules of the simulation.
- * @param memory Pointer to the shared simulation memory.
- */ 
 void add_doctors(SimulationMemory *memory, int row, int col, int doctors_count, int id);
 
 /**

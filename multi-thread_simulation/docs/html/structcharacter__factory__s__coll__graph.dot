@@ -1,0 +1,12 @@
+digraph "character_factory_s"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="character_factory_s",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" factory_method" ,fontname="Helvetica"];
+  Node2 [label="character_s",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structcharacter__s.html",tooltip=" "];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" current_state\ndoing_some_shopping\ndying\ngoing_back_home\ngoing_to_company\ngoing_to_supermarket\nnext_state\nresting_at_home\nworking" ,fontname="Helvetica"];
+  Node3 [label="state_s",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structstate__s.html",tooltip=" "];
+  Node3 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" action" ,fontname="Helvetica"];
+}

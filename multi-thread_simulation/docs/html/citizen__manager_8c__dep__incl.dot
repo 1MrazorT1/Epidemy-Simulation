@@ -1,0 +1,9 @@
+digraph "src/citizen_manager/citizen_manager.c"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/citizen_manager\l/citizen_manager.c",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Manage and handle threads as citizen to implement their behaviors."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="src/simulation_memory.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$simulation__memory_8c.html",tooltip="Implements function used to work on the shared memory."];
+}

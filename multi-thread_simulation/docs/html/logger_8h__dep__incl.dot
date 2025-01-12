@@ -1,0 +1,14 @@
+digraph "include/logger.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="include/logger.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="src/citizen_manager\l/citizen_manager.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$citizen__manager_8c.html",tooltip="Manage and handle threads as citizen to implement their behaviors."];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="src/simulation_memory.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$simulation__memory_8c.html",tooltip="Implements function used to work on the shared memory."];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="src/epidemic_sim/epidemic\l_sim.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$epidemic__sim_8c.html",tooltip="Manage the epidemic simulation, create the shared memory, manage processus and semaphores."];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}
