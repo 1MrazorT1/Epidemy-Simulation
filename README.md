@@ -41,7 +41,38 @@ This project simulates the spread of an epidemic within a city. Two approaches w
    ```
 
 ## Project Structure
-epidemy-os/ ├── Makefile ├── README.md ├── monothread_simulation/ │ ├── Makefile │ ├── README.md │ ├── include/ │ ├── lib/ │ │ └── slope/ │ ├── out/ │ ├── resources/ │ ├── src/ │ │ ├── citizen_manager/ │ │ ├── epidemic_sim/ │ │ ├── timer/ │ │ └── viewer/ │ └── tests/ ├── multi-thread_simulation/ │ ├── Makefile │ ├── Doxyfile │ ├── docs/ │ │ └── html/ │ ├── out/ │ ├── resources/ │ ├── src/ │ │ ├── epidemic_sim/ │ │ ├── timer/ │ │ └── viewer/ │ └── include/
+```bash
+epidemy-os/
+├── Makefile
+├── README.md
+├── monothread_simulation/
+│   ├── Makefile
+│   ├── README.md
+│   ├── include/            
+│   ├── lib/               
+│   │   └── slope/         
+│   ├── out/                
+│   ├── resources/          
+│   ├── src/               
+│   │   ├── citizen_manager/
+│   │   ├── epidemic_sim/  
+│   │   ├── timer/         
+│   │   └── viewer/         
+│   └── tests/              
+├── multi-thread_simulation/
+│   ├── Makefile
+│   ├── Doxyfile            
+│   ├── docs/              
+│   │   └── html/          
+│   ├── out/                
+│   ├── resources/          
+│   ├── src/                
+│   │   ├── epidemic_sim/   
+│   │   ├── timer/         
+│   │   └── viewer/         
+│   └── include/   
+```         
+
 
 ## Additional Information
 Refer to the report in the `doc/` folder for a detailed explanation of the project design, challenges encountered, and solutions implemented.
