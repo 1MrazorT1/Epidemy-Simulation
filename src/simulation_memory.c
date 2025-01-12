@@ -276,7 +276,9 @@ void update_news(SimulationMemory *memory, NewsMemory *news, int day){
             news->n_of_well_citizens[day]++;
             }else if(memory->citizens[i]->is_sick != 0){
                 news->n_of_ill_citizens[day]++;
-            }else if(memory->citizens[i]->type == 5){
+            }
+
+            if(memory->citizens[i]->type == 5){
                 news->n_of_corpses[day]++;
             }else if(memory->citizens[i]->type == 6){
                 news->n_of_ashes[day]++;
@@ -299,7 +301,7 @@ void update_news(SimulationMemory *memory, NewsMemory *news, int day){
 void transmit_news(NewsMemory *news, int day){
     FILE *fq;
     fq = fopen("resources/evolution.txt", "a");
-    fprintf(fq, "%d %d %d %d %d %f\n", day, news->n_of_well_citizens[day], news->n_of_ill_citizens[day], news->n_of_corpses[day], news->n_of_ashes[day], news->average_contamination_level[day]);
+    fprintf(fq, "%d %d %d %d %d %f\n", day, news->n_of_well_citizens[day], news->n_of_ill_citizens[day], news->n_of_corpses[day], news->n_of_ashes[day], news->average_contamination_level[day] * 100);
     fclose(fq);
 }
 
