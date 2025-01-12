@@ -2,6 +2,13 @@
 #include <stdlib.h>
 
 
+/**
+* @file simulation_memory.c
+* @brief Implements function used to work on the shared memory.
+*
+ */
+
+
 #include "simulation_memory.h"
 #include "posix_semaphore.h"
 #include "logger.h"
