@@ -1,13 +1,13 @@
 # Epidemic Simulation Project
 
 ## Team Members
-- **Mohamed Taha Brida**
-- **Johann Ly**
-- **Taha Zouggari**
-- **Mohamed Toujani**
+- **BRIDA Mohamed Taha**
+- **LY Johann**
+- **TOUJANI Mohamed**
+- **ZOUGGARI Taha**
 
 ## Project Description
-This project simulates the spread of an epidemic within a city, using various mechanisms such as inter-process communication, shared memory, and threading. The goal is to model citizen roles and their interactions to manage and mitigate the contamination.
+This project simulates the spread of an epidemic within a city. Two approaches were used: a monothread simulation and a multithread one. Using various mechanisms such as inter-process communication, shared memory, and threading. The goal is to model citizen roles and their interactions to manage and mitigate the contamination.
 
 ## Setup and Execution
 ### Prerequisites
@@ -20,20 +20,28 @@ This project simulates the spread of an epidemic within a city, using various me
    git clone https://gitlab.ecole.ensicaen.fr/toujani/epidemy-os.git
    cd epidemy-os
    ```
-2. Build the project using the provided Makefile:
+#### Monothread_simulation
+1. Build and run the sim:
    ```bash
-   make
+   make run-mono
    ```
-3. Run the simulation:
+2. Clean:
    ```bash
-   ./epidemic_sim
+   make clean-mono
    ```
 
-## File Structure
-- **`src/`**: Contains the source code files.
-- **`include/`**: Contains the header files.
-- **`doc/`**: Includes the project report.
-- **`Makefile`**: Automates the build process.
+#### Multithread_simulation
+1. Build and run the sim:
+   ```bash
+   make run-multi
+   ```
+2. Clean:
+   ```bash
+   make clean-multi
+   ```
+
+## Project Structure
+epidemy-os/ ├── Makefile ├── README.md ├── monothread_simulation/ │ ├── Makefile │ ├── README.md │ ├── include/ │ ├── lib/ │ │ └── slope/ │ ├── out/ │ ├── resources/ │ ├── src/ │ │ ├── citizen_manager/ │ │ ├── epidemic_sim/ │ │ ├── timer/ │ │ └── viewer/ │ └── tests/ ├── multi-thread_simulation/ │ ├── Makefile │ ├── Doxyfile │ ├── docs/ │ │ └── html/ │ ├── out/ │ ├── resources/ │ ├── src/ │ │ ├── epidemic_sim/ │ │ ├── timer/ │ │ └── viewer/ │ └── include/
 
 ## Additional Information
 Refer to the report in the `doc/` folder for a detailed explanation of the project design, challenges encountered, and solutions implemented.
