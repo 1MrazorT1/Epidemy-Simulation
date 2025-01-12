@@ -50,7 +50,7 @@ struct simulation_memory_s {
     status_p* dead_citizens[MAX_NORMAL_CITIZEN];
     status_p* ashes[MAX_NORMAL_CITIZEN];
     
-    character_thread_t* citizen_threads[MAX_NORMAL_CITIZEN];
+    character_thread_t citizen_threads[MAX_NORMAL_CITIZEN];
 
     int has_simulation_ended; /*
                             if 0 not

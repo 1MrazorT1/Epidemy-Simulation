@@ -4,13 +4,13 @@
 #
 CC = gcc
 INCLUDE_DIR = ./include
-CPPFLAGS = -I $(INCLUDE_DIR) -D_REENTRANT
+CPPFLAGS = -I $(INCLUDE_DIR) -D_REENTRANT -D_XOPEN_SOURCE=700
 CFLAGS = -Wall -Wextra -pedantic -std=c11 -g
 
 # libraries to link (-lXXX ex: -lm for maths)
 # Detect OS
 UNAME_S := $(shell uname -s)
-LDFLAGS = -lrt -lpthread
+LDFLAGS = -lrt -lpthread 
 
 ifeq ($(UNAME_S), Darwin)
   LDFLAGS = -lpthread
@@ -70,7 +70,7 @@ citizen_manager: .tmp/citizen_manager/main.o .tmp/citizen_manager/citizen_manage
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $(@)
 
 .tmp/citizen_manager/citizen_manager.o: $(SRC_DIR)/citizen_manager/citizen_manager.c $(INCLUDE_DIR)/citizen_manager.h
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $(@)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $(@) 
 
 # ADD YOU FILES IF NECESSARY
 

@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
-#include <pthread.h>
 #include "citizen_manager.h"
 #include "logger.h"
 #define MAX_CITIZENS 100
@@ -207,7 +206,7 @@ void update_character(){
     status_p * citizen;
 
     for(int thread = 0; thread < MAX_NORMAL_CITIZEN; thread++){
-        if (pthread_self() == memory->citizen_threads[i].thread){
+        if (pthread_self() == memory->citizen_threads[thread].thread){
             citizen = memory->citizens[memory->citizen_thread[i].id];
             break;
         }

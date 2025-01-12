@@ -1,6 +1,9 @@
 #ifndef CITIZEN_MANAGER_H
 #define CITIZEN_MANAGER_H
 
+#include <pthread.h>
+
+
 /**
 * @file citizen_manager.h
 *
