@@ -1,5 +1,4 @@
 .PVS-Studio/
-.tmp/
 .out/
 tests/build/
 .vscode/
