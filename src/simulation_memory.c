@@ -253,6 +253,56 @@ void add_citizens(SimulationMemory *memory, int row, int col, int citizens_count
     memory->n_of_citizens[row][col] = memory->n_of_citizens[row][col] + citizens_count;
 }
 
+void init_news(NewsMemory *news){
+
+    for(int day = 0; day < SIMULATION_DURATION; day++){
+        news->n_of_well_citizens[day] = 0;
+        news->n_of_ill_citizens[day] = 0;
+        news->n_of_corpses[day] = 0;
+        news->n_of_ashes[day] = 0;
+        news->average_contamination_level[day] = 0;
+    }
+
+    FILE *fq;
+    fq = fopen("resources/evolution.txt", "w");
+    fprintf(fq, "%d %d %d %d %d %f\n", 0, news->n_of_well_citizens[0], news->n_of_ill_citizens[0], news->n_of_corpses[0], news->n_of_ashes[0], news->average_contamination_level[0]);
+    fclose(fq);
+}
+
+void update_news(SimulationMemory *memory, NewsMemory *news, int day){
+    for(int i = 0; i < MAX_NORMAL_CITIZEN; i++){
+        if(memory->citizens[i] != NULL){
+            if(memory->citizens[i]->is_sick == 0){
+            news->n_of_well_citizens[day]++;
+            }else if(memory->citizens[i]->is_sick != 0){
+                news->n_of_ill_citizens[day]++;
+            }else if(memory->citizens[i]->type == 5){
+                news->n_of_corpses[day]++;
+            }else if(memory->citizens[i]->type == 6){
+                news->n_of_ashes[day]++;
+            }
+        }
+        
+    }
+
+    double average = 0;
+    double somme = 0;
+    for(int row = 0; row < CITY_ROWS; row++){
+        for(int col = 0; col < CITY_COLUMNS; col++){
+            somme += memory->contamination_level[row][col];
+        }
+    }
+
+    news->average_contamination_level[day] = somme / (CITY_ROWS * CITY_COLUMNS);
+}
+
+void transmit_news(NewsMemory *news, int day){
+    FILE *fq;
+    fq = fopen("resources/evolution.txt", "a");
+    fprintf(fq, "%d %d %d %d %d %f\n", day, news->n_of_well_citizens[day], news->n_of_ill_citizens[day], news->n_of_corpses[day], news->n_of_ashes[day], news->average_contamination_level[day]);
+    fclose(fq);
+}
+
 void update_normal_citizen(SimulationMemory *memory){
     for(int i = 1; i < MAX_NORMAL_CITIZEN; i++){
         int old_row = memory->citizens[i]->positionX;
@@ -281,6 +331,7 @@ void update_normal_citizen(SimulationMemory *memory){
 
         is_going_to_be_sick(memory->citizens[i]) == 1;
 
+        
         if(is_going_to_die(memory->citizens[i], memory->doctors) == 1){
             add_dead_citizens(memory, memory->citizens[i]->positionX, memory->citizens[i]->positionY, 1, memory->citizens[i]->id);
         }
@@ -410,7 +461,7 @@ void update_doctor(SimulationMemory *memory){
 void add_dead_citizens(SimulationMemory *memory, int row, int col, int dead_citizens_count, int id){
     memory->dead_citizens[id] = create_citizen(DEAD, row, col, rand() % 32);
     memory->citizens[id] = NULL;
-    memory->n_of_citizens[row][col] = memory->n_of_citizens[row][col] - 1;
+    //memory->n_of_citizens[row][col] = memory->n_of_citizens[row][col] - 1;
     memory->n_of_dead_citizens[row][col] = memory->n_of_dead_citizens[row][col] + dead_citizens_count;
 }
 
@@ -471,6 +522,9 @@ void init_people(SimulationMemory *memory, int number_of_citizens, int number_of
         int rand_row = rand() % 7;
         int rand_col = rand() % 7;
         add_citizens(memory, rand_row, rand_col, 1, citizens);
+        if(citizens <= 2){
+            memory->citizens[citizens]->type = JOURNALIST;
+        }
         citizens--;
     }
 }
@@ -506,12 +560,19 @@ void initialize_memory(SimulationMemory *memory){
     set_buildings(memory);
     init_contamination_level(memory);
     init_people(memory, 25, 6, 4, 0, 0);
+    memory->news = malloc(sizeof(NewsMemory));
+    init_news(memory->news);
 }
 
 void update_memory(SimulationMemory *memory){
+    memory->day++;
     update_normal_citizen(memory);
     update_firefighter(memory);
     update_doctor(memory);
     update_wastelands(memory);
     update_hospital(memory);
+    if(memory->day <= 100){
+        update_news(memory, memory->news, memory->day - 1);
+        transmit_news(memory->news, memory->day - 1);
+    }
 }

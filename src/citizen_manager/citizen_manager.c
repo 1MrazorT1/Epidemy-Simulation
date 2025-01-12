@@ -164,7 +164,7 @@ int is_going_to_die(status_p* citizen, status_p** medics){
                 return 0;
             }
         }
-        if(citizen->death_chance > ((rand() % 100) / 100)){
+        if(citizen->death_chance > ((rand() % 100) * 0.01)){
             citizen->death_chance = 1;
             citizen->type = 5;
             return 1;

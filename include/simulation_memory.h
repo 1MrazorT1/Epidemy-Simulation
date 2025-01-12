@@ -17,8 +17,10 @@
 #define MAX_NORMAL_CITIZEN 25
 #define MAX_FIREFIGHTER 6
 #define MAX_DOCTORS 4
+#define SIMULATION_DURATION 101 //in days
 
 typedef struct simulation_memory_s SimulationMemory;
+typedef struct news NewsMemory;
 
 struct simulation_memory_s {
     char headline_of_the_day[255];
@@ -36,6 +38,17 @@ struct simulation_memory_s {
     status_p* doctors[4];
     status_p* dead_citizens[MAX_NORMAL_CITIZEN];
     status_p* ashes[MAX_NORMAL_CITIZEN];
+
+    NewsMemory* news;
+};
+
+struct news{
+    int n_of_well_citizens[SIMULATION_DURATION];
+    int n_of_ill_citizens[SIMULATION_DURATION];
+    int n_of_corpses[SIMULATION_DURATION];
+    int n_of_ashes[SIMULATION_DURATION];
+    double average_contamination_level[SIMULATION_DURATION];
+    char* measure_to_be_taken;
 };
 
 
