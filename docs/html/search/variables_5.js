@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['mq_0',['mq',['../structchannel__s.html#a2019d77ab3c0587321b84f1953f89367',1,'channel_s']]],
+  ['mq_5fcurmsgs_1',['mq_curmsgs',['../structmq__attr.html#a08cfd508cef817ba351c1af8d9af50f5',1,'mq_attr']]],
+  ['mq_5fflags_2',['mq_flags',['../structmq__attr.html#a19c05fa88c6d1126120d800647ddb0dd',1,'mq_attr']]],
+  ['mq_5fmaxmsg_3',['mq_maxmsg',['../structmq__attr.html#aa535e1fa6c07c1d189e720ba15f9af08',1,'mq_attr']]],
+  ['mq_5fmsgsize_4',['mq_msgsize',['../structmq__attr.html#ae975d1d907081c1e53b079c981c32209',1,'mq_attr']]],
+  ['mqh_5fattr_5',['mqh_attr',['../structmq__hdr.html#a94bee9da220f292c848725505f6dce0d',1,'mq_hdr']]],
+  ['mqh_5fevent_6',['mqh_event',['../structmq__hdr.html#afbda2d261685d253e9e85879bf41fd37',1,'mq_hdr']]],
+  ['mqh_5ffree_7',['mqh_free',['../structmq__hdr.html#ada3c01afbf2b386fef8d95c02079bc09',1,'mq_hdr']]],
+  ['mqh_5fhead_8',['mqh_head',['../structmq__hdr.html#a33fc0460bd7683624761bacc78ced068',1,'mq_hdr']]],
+  ['mqh_5flock_9',['mqh_lock',['../structmq__hdr.html#a6829fa9cd4df5ec58a4d96add7989a1b',1,'mq_hdr']]],
+  ['mqh_5fnwait_10',['mqh_nwait',['../structmq__hdr.html#a54e9df10b2020b971ef01e66efd67470',1,'mq_hdr']]],
+  ['mqh_5fpid_11',['mqh_pid',['../structmq__hdr.html#a27e8bc154eeba4ab1ad2b057293cafe3',1,'mq_hdr']]],
+  ['mqh_5fwait_12',['mqh_wait',['../structmq__hdr.html#acff79cd440ddf4ed9c207e4865bdba5d',1,'mq_hdr']]],
+  ['mqi_5fflags_13',['mqi_flags',['../structmq__info.html#afcc41ec2afc591c57b112fbc64b5b752',1,'mq_info']]],
+  ['mqi_5fhdr_14',['mqi_hdr',['../structmq__info.html#af9bbf897757da344e3b57d48a62f4004',1,'mq_info']]],
+  ['mqi_5fmagic_15',['mqi_magic',['../structmq__info.html#a85e297209b805c1acc1b11c1c98dbd84',1,'mq_info']]],
+  ['msg_5flen_16',['msg_len',['../structmymsg__hdr.html#a5ef19f3ce23689428785b1f0ab006c8f',1,'mymsg_hdr']]],
+  ['msg_5fnext_17',['msg_next',['../structmymsg__hdr.html#a321988deebbf70070f51b981ae166563',1,'mymsg_hdr']]],
+  ['msg_5fprio_18',['msg_prio',['../structmymsg__hdr.html#a0d5adce336a4d265e286d5fe1ddc94b6',1,'mymsg_hdr']]]
+];

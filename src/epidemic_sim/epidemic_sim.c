@@ -29,10 +29,7 @@
 #define MAX_CITIZENS 100
 
 
-/**
- * @brief Confiure and initialise the shared memory
- * @return A pointer to a SimulationMemory structure which represents the shared memory
- */
+
 SimulationMemory* setup_shared_memory(){
 
     SimulationMemory* p;
@@ -54,10 +51,7 @@ SimulationMemory* setup_shared_memory(){
 
 }
 
-/**
- * @brief Update the simulation after a day passed
- * @details Update the map and characters accordind to the rules of the epidemic simulation
- */
+
 void next_day(){
     SimulationMemory* memory;
     semaphore_t* sem;
@@ -66,17 +60,11 @@ void next_day(){
     memory = get_data();
     memory->day++;
     update_wastelands(memory);
-    update_normal_citizen(memory);
-    update_doctor(memory);
-    update_firefighter(memory);
-
+    
     /*to complete*/
 }   
 
-/**
- * @brief Start the epidemic simulation
- * @details In the parent process, it runs the function which manages signal to coordinate all the sub programs. The child process runs all the sub programs. 
- */
+
 void start_simulation(){
     pid_t pid = fork();
     if (pid == -1){
@@ -93,14 +81,11 @@ void start_simulation(){
 
 
 void epidemic_sim(){
-    /*to complete : use next_day, ...*/
+    /*to complete : need to initialize sigaction in order to wait signals ...*/
 
 }
 
-/**
- * @brief Manage the timer process in the epidemic simulation
- * @details 
- */
+
 void manage_timer(){
 
     SimulationMemory * memory;
@@ -126,15 +111,12 @@ void manage_timer(){
     } 
     else {
         /* EXEC TIMER */
+
         wait(NULL);
         }
 }
 
-/**
- * @brief Manage the citizen manager process in the epidemic simulation.
- * @details 
- * Acceses and update the shared memory to store citizen_manager's PID. Runs citizen_manger in a child process.
- */
+
 void manage_citizen_manager(){
     printf("citizen_manager process : %d\n", getpid());
 
@@ -177,10 +159,7 @@ void manage_citizen_manager(){
     }
 }
 
-/**
- * @brief Manage the press_agency process in the epidemic simulation.
- * @details 
- */
+
 void manage_press_agency(){
     printf("press_agency process : %d\n", getpid());
 
@@ -221,10 +200,7 @@ void manage_press_agency(){
     }
 }
 
-/**
- * @brief Manage the timer process in the epidemic simulation
- * @details 
- */
+
 void manage_viewer(){
     printf("viewer process: %d\n", getpid());
     SimulationMemory * memory;
@@ -248,10 +224,6 @@ void manage_viewer(){
     
 }
 
-/**
- * @brief Manage the timer process in the epidemic simulation
- * @details 
- */
 void end_simulation(int signal){
     SimulationMemory * memory;
     semaphore_t* sem;

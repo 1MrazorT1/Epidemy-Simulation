@@ -171,9 +171,29 @@ void add_doctors(SimulationMemory *memory, int row, int col, int doctors_count, 
 void add_dead_citizens(SimulationMemory *memory, int row, int col, int dead_citizens_count, int id);
 
 
+
+/**
+ * @brief Adds ashes on the map for the epidemic simulation.
+ * @param memory Pointer to the shared simulation memory.
+ * @param row The row index where to add the ashes.
+ * @param col The column index where to add the ashes
+ * @param ashes_count The number of ashes to add.
+ * @param id The ID of the ashes.
+ */
 void add_ashes(SimulationMemory *memory, int row, int col, int ashes_count, int id);
 
+
+/**
+ * @brief Initializes the characters on the map according to the rules of the simulation.
+ * @param memory Pointer to the shared simulation memory.
+ * @param number_of_citizens Number of citizens in the city.
+ * @param number_of_firefighters Number of firefighters in the city.
+ * @param number_of_doctors Number of doctors in the city.
+ * @param number_of_dead_citizens The number of dead citizens.
+ * @param number_of_ashes Number of ashes on the map.
+ */
 void init_people(SimulationMemory *memory, int number_of_citizens, int number_of_firefighters, int number_of_doctors, int number_of_dead_citizens, int number_of_ashes);
+
 
 /**
  * @brief Updates the state of buildings and characters and contamination levels in the simulation.
@@ -181,8 +201,26 @@ void init_people(SimulationMemory *memory, int number_of_citizens, int number_of
  */
 void update_memory(SimulationMemory *memory);
 
+/**
+* @brief Updates the state of the normal citizens given the current state of the simulation.
+* 
+* @param memory Pointer to the shared simulation memory.
+*/
 void update_normal_citizen(SimulationMemory *memory);
+
+/**
+ * @brief Updates the state of the firefighters given the current state of the simulation.
+ *
+ * @param memory Pointer to the shared simulation memory.
+ */
+
 void update_firefighter(SimulationMemory *memory);
+
+/**
+ * @brief Updates the state of the doctors given the current state of the simulation.
+ *
+ * @param memory Pointer to the shared simulation memory.
+ */
 void update_doctor(SimulationMemory* memory);
 
 

@@ -68,8 +68,8 @@ void manage_viewer();
 
 
 /**
- * @brief Manage the timer process in the epidemic simulation
- * @details 
+ * @brief Manage the epidemic simulation.
+ * @details
  */
 void epidemic_simulation();
 

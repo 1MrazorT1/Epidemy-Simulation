@@ -5,6 +5,12 @@
 #include "logger.h"
 #define MAX_CITIZENS 100
 
+/**
+* @file citizen_manager.c
+* @brief Manage and handle threads as citizen to implement their behaviors.
+*
+ */
+
 /* 
  * ----------------------------------------------------------------------------
  *                                  TO COMPLETE
@@ -231,7 +237,25 @@ void update_character(){
 
 }
 
-character_thread_t * citizen_thread (SimulationMemory * memory){
+void run_citizen_behaviors() {
+    sigset_t blocked_signals;
+    sigemptyset(&blocked_signals);               
+    sigaddset(&blocked_signals, SIGTTIN);     
+    pthread_sigmask(SIG_BLOCK, &blocked_signals, NULL);  
+
+    struct sigaction signal_action;
+    signal_action.sa_handler = &update_character();  
+    signal_action.sa_flags = 0;               
+    if (sigaction(SIGUSR2, &signal_action, NULL) == -1) { 
+        handle_fatal_error("error : sigaction()");
+    }
+
+    while (true) {
+    }
+}
+
+
+character_thread_t * assigns_citizen_thread (SimulationMemory * memory){
     pthread_mutex_init(&mutex, NULL);
     pthread_barrier_init(&barrier, NULL, MAX_CITIZENS);
 
@@ -239,8 +263,20 @@ character_thread_t * citizen_thread (SimulationMemory * memory){
     for (int i = 0; i< MAX_CITIZENS; i++){
 
         P(sem);
-        int f = pthread_create(&memory->citizen_threads[i].thread, NULL, );
-    }
+        int f = pthread_create(&memory->citizen_threads[i].thread, NULL, &run_citizen_behaviors());
+        memory->citizen_threads[i].id = i;
+        V(sem);
+        if (f != 0) {
+            fprintf(stderr, "Failed to create thread: %s\n", strerror(f));
+            for (int j = 0; j < i; j++) {
+                pthread_cancel(memory->citizen_threads[j].thread); 
+				pthread_join(memory->citizen_threads[j].thread, NULL); 
+			}
+            exit(EXIT_FAILURE);
+        }
+	}
+	return memory->citizen_threads;
 
 
 }
+
