@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include "facade.h"
+#include "epidemic_sim.h"
 
 Facade *new_facade(const SimulationMemory *memory) {
     Facade *facade = NULL;

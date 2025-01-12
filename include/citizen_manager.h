@@ -1,7 +1,18 @@
 #ifndef CITIZEN_MANAGER_H
 #define CITIZEN_MANAGER_H
 
+#include <pthread.h>
+
 #define CITIZEN_MAX_NAME_LENGTH 32
+
+
+typedef struct character_thread {
+    pthread_t thread;
+    int id;
+}character_thread_t;
+
+
+
 
 typedef enum Person{
     CITIZEN,

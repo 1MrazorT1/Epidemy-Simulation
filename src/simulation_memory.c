@@ -3,6 +3,7 @@
 
 
 #include "simulation_memory.h"
+#include "posix_semaphore.h"
 #include "logger.h"
 #include "citizen_manager/citizen_manager.c"
 
@@ -356,7 +357,7 @@ void init_contamination_level(SimulationMemory *memory){
 void initialize_memory(SimulationMemory *memory){
     //set_headline(memory);
     //set_day(memory, 1);
-    semaphore_t sem;
+    semaphore_t* sem;
     sem = open_semaphore("epidemic_semaphore");
     P(sem);
     set_buildings(memory);

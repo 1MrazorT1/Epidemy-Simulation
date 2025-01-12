@@ -6,6 +6,7 @@
 
 #include "facade.h"
 #include "simulation_memory.h"
+#include "epidemic_sim.h"
 
 #define CELL_WIDTH 184 /* 64 + 5 x 24 */
 #define CELL_HEIGHT 68

@@ -4,13 +4,15 @@
 #include <sys/types.h>
 #include "citizen_manager.h"
 
-
 #define SIMULATION_MEMORY_PATH "/epidemic2023"
 #define CITY_ROWS    7
 #define CITY_COLUMNS 7
 #define MAX_NORMAL_CITIZEN 25
 #define MAX_FIREFIGHTER 6
 #define MAX_DOCTORS 4
+
+
+
 
 typedef struct simulation_memory_s SimulationMemory;
 
@@ -64,6 +66,7 @@ void init_people(SimulationMemory *memory, int number_of_citizens, int number_of
 void update_memory(SimulationMemory *memory);
 void update_normal_citizen(SimulationMemory *memory);
 void update_firefighter(SimulationMemory *memory);
+void update_doctor(SimulationMemory* memory);
 
 
 #endif

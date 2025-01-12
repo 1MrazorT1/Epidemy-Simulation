@@ -36,11 +36,11 @@
 #include <ctype.h>
 #include <sys/sem.h>
 #include <semaphore.h>
-
-#include "memory.h"
+#include "simulation_memory.h"
+struct simulation_memory_s;
+typedef struct simulation_memory_s SimulationMemory;
 
 typedef sem_t semaphore_t;
-typedef struct memory_s memory_t;
 
 /**
  * Handles a fatal error. It displays a message, then exits.
@@ -75,6 +75,6 @@ void V(semaphore_t *sem);
 /**
  * Returns a pointer to the simulation memory structure in the shared memory
  */
-memory_t* get_data();
+SimulationMemory* get_data();
 
 #endif /* POSIX_SEMAPHORE_H */

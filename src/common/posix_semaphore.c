@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 #include "posix_semaphore.h"
-
+#include "simulation_memory.h"
 /**
  * \file posix_semaphore.c
  * \brief A simple program used to implement a POSIX semaphore and read data from the shared memory
@@ -98,9 +98,9 @@ void V(semaphore_t *sem)
 /**
  * Returns a pointer to the simulation memory structure in the shared memory
  */
-memory_t* get_data(){
+SimulationMemory* get_data(){
     int fd;
-    memory_t*ptr;
+    SimulationMemory *ptr;
     fd = shm_open("/epidemic_memory", O_RDWR, 0666);
     if(fd==-1){
         printf("error");
@@ -108,7 +108,7 @@ memory_t* get_data(){
     //ptr = (memory_t*) mmap(NULL, sizeof(memory_t), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
     //return ptr;
 
-    ptr = (memory_t*) mmap(NULL, sizeof(memory_t), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    ptr = (SimulationMemory*) mmap(NULL, sizeof(SimulationMemory), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
     if (ptr == MAP_FAILED) {
         perror("Error mapping shared memory");
         close(fd);
