@@ -16,6 +16,7 @@ To view the full history of commits on this project, please make sure that you a
 ### Prerequisites
 - A Linux environment (for ncurses or graphical libraries).
 - C compiler (e.g., `gcc`).
+- Please make sure that you run the command "export GDK_BACKEND=x11" before running the program, otherwise the news section won't show up.
 
 ### Build Instructions
 1. Clone the repository:
@@ -24,10 +25,11 @@ To view the full history of commits on this project, please make sure that you a
    cd epidemy-os
    ```
 2. ```bash
+   export GDK_BACKEND=x11
    make
    ```
    This way you will compile the two parts of the project. Even if you see errors in the compilation, that can be related to only one method and not both of them. So to choose what method to run, please follow the instructions below:
-#### Monothread_simulation
+#### Monothread_simulation (have you run "export GDK_BACKEND=x11" ? If not, please do so)
 1. Run the sim:
    ```bash
    make run-mono
