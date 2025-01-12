@@ -1,4 +1,5 @@
-set term x11 window "0x6c00007"
+set term x11 window "0x400007"
+
 set object 1 rectangle from screen 0,0 to screen 1,1 fillcolor rgb"#ffffff" behind
 set key font ",6"
 set tics font ", 6"
@@ -13,6 +14,7 @@ set style line 1 lt 1 lw 2 pt 3 linecolor rgb "green"
 set style line 2 lt 1 lw 2 pt 3 linecolor rgb "orange"
 set style line 3 lt 1 lw 2 pt 3 linecolor rgb "red"
 set style line 4 lt 1 lw 2 pt 3 linecolor rgb "black"
-plot "./resources/evolution.txt" using 1:2 title 'Healthy' with lines ls 1 , "./resources/evolution.txt" using 1:3 title 'Sick' with lines ls 2, "./resources/evolution.txt" using 1:4 title 'Dead' with lines ls 3, "./resources/evolution.txt" using 1:5 title 'Burnt bodies' with lines ls 4
+set style line 5 lt 1 lw 2 pt 3 linecolor rgb "blue"
+plot "./resources/evolution.txt" using 1:2 title 'Healthy' with lines ls 1 , "./resources/evolution.txt" using 1:3 title 'Sick' with lines ls 2, "./resources/evolution.txt" using 1:4 title 'Dead' with lines ls 3, "./resources/evolution.txt" using 1:5 title 'Burnt bodies' with lines ls 4, "./resources/evolution.txt" using 1:6 title 'Av Contamination Level' with lines ls 5
 pause(1)
 reread

@@ -30,12 +30,22 @@ status_p *create_citizen(Person e,unsigned int x, unsigned int y,int id_name){
     citi->days_spent_in_hospital_asHealthy = 0;
     citi->type = e;
     strcpy(citi->name, names[id_name]);
-
-    if (e == DOCTOR){
-        /* to complete after */
-    }
+    citi->measuring_tool = 0;
+    citi->sprayer = 0;
     return citi;
     
+}
+
+void acquire_measuring_tool(status_p* character){
+    character->measuring_tool = 1;
+}
+
+void refill_sprayer(status_p* character, int amount){
+    character->sprayer += amount;
+}
+
+int can_enter_the_hospital(status_p* character){
+    return ((character->type == DOCTOR) || (character->type == FIREFIGHTER) || (character->is_sick > 0));
 }
 
 void move(status_p* character){
@@ -74,6 +84,14 @@ void move(status_p* character){
     }
     character->positionX = character->positionX + rand_dx;
     character->positionY = character->positionY + rand_dy;
+
+    /*Checking if the character can move to the hospital if they're trying to*/
+    if((character->positionX == 3) && (character->positionY == 3)){
+        if(!can_enter_the_hospital(character)){
+            character->positionX = character->positionX - rand_dx;
+            character->positionY = character->positionY - rand_dy;
+        }
+    }
 }
 
 int normal_citizen_moving(status_p* citizen, double local_contamination[7][7]){
@@ -146,7 +164,7 @@ int is_going_to_die(status_p* citizen, status_p** medics){
                 return 0;
             }
         }
-        if(citizen->death_chance > ((rand() % 100) / 100)){
+        if(citizen->death_chance > ((rand() % 100) * 0.01)){
             citizen->death_chance = 1;
             citizen->type = 5;
             return 1;
