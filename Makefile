@@ -4,13 +4,13 @@
 #
 CC = gcc
 INCLUDE_DIR = ./include
-CPPFLAGS = -I $(INCLUDE_DIR) -D_REENTRANT
+CPPFLAGS = -I $(INCLUDE_DIR) -D_REENTRANT -D_XOPEN_SOURCE=700
 CFLAGS = -Wall -Wextra -pedantic -std=c11 -g
 
 # libraries to link (-lXXX ex: -lm for maths)
 # Detect OS
 UNAME_S := $(shell uname -s)
-LDFLAGS = -lrt -lpthread
+LDFLAGS = -lrt -lpthread 
 
 ifeq ($(UNAME_S), Darwin)
   LDFLAGS = -lpthread
@@ -70,7 +70,7 @@ citizen_manager: .tmp/citizen_manager/main.o .tmp/citizen_manager/citizen_manage
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $(@)
 
 .tmp/citizen_manager/citizen_manager.o: $(SRC_DIR)/citizen_manager/citizen_manager.c $(INCLUDE_DIR)/citizen_manager.h
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $(@)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $(@) 
 
 # ADD YOU FILES IF NECESSARY
 
@@ -127,11 +127,12 @@ epidemic_sim: .tmp/epidemic_sim/main.o .tmp/epidemic_sim/epidemic_sim.o \
               .tmp/logger.o .tmp/mq_close.o .tmp/mq_getattr.o .tmp/mq_internal_fs.o \
               .tmp/mq_notify.o .tmp/mq_open.o .tmp/mq_receive.o .tmp/mq_send.o \
               .tmp/mq_setattr.o .tmp/mq_timedreceive.o .tmp/mq_timedsend.o \
-              .tmp/mq_unlink.o
+              .tmp/mq_unlink.o \
+			  .tmp/posix_semaphore.o
 	$(CC) $^ -o $(OUTPUT_DIR)/$@ $(LDFLAGS)
 else
-epidemic_sim: .tmp/epidemic_sim/main.o .tmp/epidemic_sim/epidemic_sim.o .tmp/logger.o
-	$(CC) $^ -o $(OUTPUT_DIR)/$@ $(LDFLAGS)
+epidemic_sim: .tmp/epidemic_sim/main.o .tmp/epidemic_sim/epidemic_sim.o .tmp/logger.o .tmp/posix_semaphore.o .tmp/simulation_memory.o
+	$(CC) $^ -o $(OUTPUT_DIR)/$@ $(LDFLAGS)	
 endif
 
 .tmp/epidemic_sim/main.o: $(SRC_DIR)/epidemic_sim/main.c $(INCLUDE_DIR)/epidemic_sim.h
@@ -141,9 +142,21 @@ endif
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $(@)
 
 # -----------------------------------------------------------------------------
+#                              Simulation memory
+# -----------------------------------------------------------------------------
+#
+
+tmp/simulation_memory.o: $(SRC_DIR)/simulation_memory.c $(INCLUDE_DIR)/simulation_memory.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $(@)
+
+
+# -----------------------------------------------------------------------------
 #                              VARIOUS FILES
 # -----------------------------------------------------------------------------
 #
+
+.tmp/posix_semaphore.o: $(SRC_DIR)/common/posix_semaphore.c $(INCLUDE_DIR)/posix_semaphore.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $(@)
 
 .tmp/logger.o: $(SRC_DIR)/logger.c $(INCLUDE_DIR)/logger.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $(@)

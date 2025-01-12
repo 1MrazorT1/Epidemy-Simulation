@@ -33,7 +33,7 @@ int facade_get_building(const Facade *facade, int row, int column) {
 }
 
 int facade_get_infection(const Facade *facade, int row, int column) {
-    return 0;
+    return facade->memory->contamination_level[row][column];
 }
 
 int facade_get_day(const Facade *facade) {

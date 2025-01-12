@@ -217,6 +217,11 @@ void clean_citizen_labels(const Application *app) {
 
 static gboolean update_window(gpointer data) {
     Application *app = data;
+
+
+    
+
+
     update_simulation_board(app);
     return TRUE;
 }
@@ -238,6 +243,7 @@ void update_simulation_board(const Application *app) {
             dead_citizens = 0;
             burnt_bodies = 0;
 
+            update_memory(app->simulation_facade->memory);
             count_citizens(app, row, col, &citizens, &doctors, &firefighters, &dead_citizens,
                            &burnt_bodies);
 
@@ -272,7 +278,7 @@ void update_infection_labels(const Application *app, int row, int col) {
     facade = app->simulation_facade;
     infection = facade->get_infection(facade, row, col);
 
-    sprintf(number, "%d%%", (infection * 100));
+    sprintf(number, "%d%%", (infection));
     gtk_label_set_text(GTK_LABEL(app->labels_infection[row][col]), number);
 
     if (infection > 0.8) {
@@ -289,11 +295,11 @@ void update_infection_labels(const Application *app, int row, int col) {
 }
 
 void count_citizens(const Application *app, int row, int col, int *citizens, int *doctors, int *firefighters, int *dead_citizens, int *burnt_bodies) {
-    *citizens = app->simulation_facade->memory->citizens[row][col];
-    *doctors = app->simulation_facade->memory->doctors[row][col];
-    *firefighters = app->simulation_facade->memory->firefighters[row][col];
-    *dead_citizens = app->simulation_facade->memory->dead_citizens[row][col];
-    *burnt_bodies = app->simulation_facade->memory->ashes[row][col];
+    *citizens = app->simulation_facade->memory->n_of_citizens[row][col];
+    *doctors = app->simulation_facade->memory->n_of_doctors[row][col];
+    *firefighters = app->simulation_facade->memory->n_of_firefighters[row][col];
+    *dead_citizens = app->simulation_facade->memory->n_of_dead_citizens[row][col];
+    *burnt_bodies = app->simulation_facade->memory->n_of_ashes[row][col];
 }
 
 void update_citizen_labels_and_images(const Application *app, int row, int col,
