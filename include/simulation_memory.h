@@ -49,18 +49,7 @@ struct simulation_memory_s {
     status_p* doctors[4];
     status_p* dead_citizens[MAX_NORMAL_CITIZEN];
     status_p* ashes[MAX_NORMAL_CITIZEN];
-
-    NewsMemory* news;
-};
-
-struct news{
-    int n_of_well_citizens[SIMULATION_DURATION];
-    int n_of_ill_citizens[SIMULATION_DURATION];
-    int n_of_corpses[SIMULATION_DURATION];
-    int n_of_ashes[SIMULATION_DURATION];
-    double average_contamination_level[SIMULATION_DURATION];
-    char* measure_to_be_taken;
-
+    
     character_thread_t* citizen_threads[MAX_NORMAL_CITIZEN];
 
     int has_simulation_ended; /*
@@ -75,6 +64,17 @@ struct news{
     pids[3] : press agency 
     pid[4] : viewer
     */
+
+    NewsMemory* news;
+};
+
+struct news{
+    int n_of_well_citizens[SIMULATION_DURATION];
+    int n_of_ill_citizens[SIMULATION_DURATION];
+    int n_of_corpses[SIMULATION_DURATION];
+    int n_of_ashes[SIMULATION_DURATION];
+    double average_contamination_level[SIMULATION_DURATION];
+    char* measure_to_be_taken;
 };
 
 /**
