@@ -3,7 +3,7 @@
 
 #include "epidemic_sim.h"
 #include "logger.h"
-
+#include "simulation_memory.h"
 /*
  * Runs the Epidemic Simulation process.
  */

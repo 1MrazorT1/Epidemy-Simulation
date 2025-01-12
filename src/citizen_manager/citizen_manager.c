@@ -1,15 +1,20 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
-
+#include <pthread.h>
 #include "citizen_manager.h"
 #include "logger.h"
+#define MAX_CITIZENS 100
 
 /* 
  * ----------------------------------------------------------------------------
  *                                  TO COMPLETE
  * ----------------------------------------------------------------------------
  */
+
+pthread_mutex_t mutex;
+pthread_barrier_t barrier;
+
 status_p *create_citizen(Person e,unsigned int x, unsigned int y,int id_name){
     const char *const names[] = {"Taha", "Mohamed", "Johann", "Brida", "Foulen", "Falten", "Foulena", "Bouhal",
                              "Saad", "Omar", "Hamza", "Ahmed", "Kamel", "Aymen", "Ramy", "Ayoub",
@@ -188,4 +193,55 @@ void display_citizen( status_p *citi) {
         printf("Medical Pouches: %d\n", citi->care_pouch);
     } 
     printf("\n");
+}
+
+
+
+
+void update_character(){
+    SimulationMemory* memory;
+    semaphore_t* sem;
+    sem= open_semaphore("/epidemic_semaphore");
+    memory = get_data();
+
+    status_p * citizen;
+
+    for(int thread = 0; thread < MAX_NORMAL_CITIZEN; thread++){
+        if (pthread_self() == memory->citizen_threads[i].thread){
+            citizen = memory->citizens[memory->citizen_thread[i].id];
+            break;
+        }
+    }
+
+    switch(citizen->type){
+        case CITIZEN:
+            update_normal_citizen(memory);
+
+        case DOCTOR:
+            update_doctor(memory);
+        
+        case FIREFIGHTER:
+            update_firefighter(memory);
+    }
+
+    if (munmap(memory, sizeof(SimulationMemory)) == -1){
+        perror("Error : munmap() the shared memory in update_character()")
+    }
+
+
+
+}
+
+character_thread_t * citizen_thread (SimulationMemory * memory){
+    pthread_mutex_init(&mutex, NULL);
+    pthread_barrier_init(&barrier, NULL, MAX_CITIZENS);
+
+    semaphore_t* sem = open_semaphore("/epidemic_semaphore");
+    for (int i = 0; i< MAX_CITIZENS; i++){
+
+        P(sem);
+        int f = pthread_create(&memory->citizen_threads[i].thread, NULL, );
+    }
+
+
 }
