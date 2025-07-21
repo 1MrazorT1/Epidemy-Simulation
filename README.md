@@ -91,3 +91,5 @@ epidemy-os/
 
 ## Report Location
 Refer to the report in the `doc/` folder for a detailed explanation of the project design, challenges encountered, and solutions implemented.
+
+For reference, this repo was imported from my personal school gitlab account.
